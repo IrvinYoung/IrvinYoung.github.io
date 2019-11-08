@@ -312,7 +312,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-08 20:48:42'>2019-11-05 17:13</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-08 21:27:03'>2019-11-05 17:13</time>
         
     </div>
     <div class="article-meta">
@@ -345,7 +345,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#START-OPENVPN-RULES"><span class="toc-text">START OPENVPN RULES</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAT-table-rules"><span class="toc-text">NAT table rules</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Allow-traffic-from-OpenVPN-client-to-eth0-changeto-the-interface-you-discovered"><span class="toc-text">Allow traffic from OpenVPN client to eth0(changeto the interface you discovered!)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#END-OPENVPN-RULES"><span class="toc-text">END OPENVPN RULES</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -482,15 +482,20 @@ net.ipv4.ip_forward=1</code></pre>完成后保存并退出该文件。<br>为了
 </li>
 <li>调整防火墙（UFW）规则来伪装客户端的连接<br>　　在这篇教程中我们需要配置防火墙规则来引导进入服务器的一些流量，我们需要修改防火墙规则文件来建立伪装规则，iptables的概念用于提供动态的NAT，从而正确地路由客户端连接。在打开防火墙配置文件以添加伪装规则之前，我们需要找到我们Ubuntu服务器的公共网络接口，输入如下命令：<pre><code class="bash">$ ip route | grep default</code></pre>
 你的公共网络接口应当紧跟在单词”dev”后面，例如，我的接口名字为eth0：<br>default via 172.18.21.203 dev eth0<br>当你有一个与你的默认路由相关联的接口的时候，打开/etc/ufw/before.rules这个文件并添加相应的规则：<pre><code class="bash">$ sudo vim /etc/ufw/before.rules</code></pre>
-这个文件处理在加载常规UFW规则之前应该被放置的文件，在这个文件的最开始处加入下面的内容。这样可以为nat表设置POSTROUTING默认规则，并且为来自VPN的任何流量设置伪装连接。<pre><code>/etc/ufw/before.rules
-</code></pre></li>
+这个文件处理在加载常规UFW规则之前应该被放置的文件，在这个文件的最开始处加入下面的内容。这样可以为nat表设置POSTROUTING默认规则，并且为来自VPN的任何流量设置伪装连接。</li>
 </ol>
-<h1 id="START-OPENVPN-RULES"><a href="#START-OPENVPN-RULES" class="headerlink" title="START OPENVPN RULES"></a>START OPENVPN RULES</h1><h1 id="NAT-table-rules"><a href="#NAT-table-rules" class="headerlink" title="NAT table rules"></a>NAT table rules</h1><p>*nat<br>:POSTROUTING ACCEPT [0:0] </p>
-<h1 id="Allow-traffic-from-OpenVPN-client-to-eth0-changeto-the-interface-you-discovered"><a href="#Allow-traffic-from-OpenVPN-client-to-eth0-changeto-the-interface-you-discovered" class="headerlink" title="Allow traffic from OpenVPN client to eth0(changeto the interface you discovered!)"></a>Allow traffic from OpenVPN client to eth0(changeto the interface you discovered!)</h1><p>-A POSTROUTING -s 10.8.0.0/8 -o eth0 -jMASQUERADE<br>COMMIT</p>
-<h1 id="END-OPENVPN-RULES"><a href="#END-OPENVPN-RULES" class="headerlink" title="END OPENVPN RULES"></a>END OPENVPN RULES</h1><pre><code>完成后保存并退出。
-然后告诉防火墙默认允许转发包：
-```bash
-$ sudo vim /etc/default/ufw</code></pre><p>在这个文件里面，找到DEFAULT_FORWARD_POLICY指令，将它的值从DROP改成ACCEPT：</p>
+<pre><code class="bash">/etc/ufw/before.rules
+# START OPENVPN RULES
+# NAT table rules
+*nat
+:POSTROUTING ACCEPT [0:0] 
+# Allow traffic from OpenVPN client to eth0(changeto the interface you discovered!)
+-A POSTROUTING -s 10.8.0.0/8 -o eth0 -jMASQUERADE
+COMMIT
+# END OPENVPN RULES</code></pre>
+<p>完成后保存并退出。<br>然后告诉防火墙默认允许转发包：</p>
+<pre><code class="bash">$ sudo vim /etc/default/ufw</code></pre>
+<p>在这个文件里面，找到DEFAULT_FORWARD_POLICY指令，将它的值从DROP改成ACCEPT：</p>
 <pre><code class="bash">/etc/default/ufw
 DEFAULT_FORWARD_POLICY=&quot;ACCEPT&quot;</code></pre>
 <p>完成后保存并退出。</p>
@@ -621,7 +626,7 @@ $ ./make_config.sh yourname</code></pre>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
     <p><span class="copy-title">发布时间:</span>2019-11-05, 17:13:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-08, 20:48:42</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-08, 21:27:03</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/05/InstallOpenVPNInUbuntu/" title="在ubuntu环境上安装OpenVPN服务">https://blog.walkbc.com/2019/11/05/InstallOpenVPNInUbuntu/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
