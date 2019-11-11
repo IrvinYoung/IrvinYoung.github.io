@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>SSH远程执行命令/脚本 | Walk</title>
-  <meta name="keywords" content=" linux , ssh , remote , script ">
-  <meta name="description" content="SSH远程执行命令/脚本 | Walk">
+  <title>Golang 读写XLSX文件 | Walk</title>
+  <meta name="keywords" content=" golang , 文件格式 , xlsx ">
+  <meta name="description" content="Golang 读写XLSX文件 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -307,9 +307,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-SSHRemote" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-HandleXLSXByGolang" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">SSH远程执行命令/脚本</h1>
+        <h1 class="article-title">Golang 读写XLSX文件</h1>
     
     <div class="article-meta">
         
@@ -317,27 +317,25 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="应用软件 noopener">应用软件</a>
+                <a href="javascript:" target="_blank" data-rel="GO第三方包 noopener">GO第三方包</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color1">linux</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">ssh</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">文件格式</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">remote</a>
-            
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">script</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">xlsx</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-08 21:21:25'>2019-11-08 14:20</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-11 11:52:39'>2019-11-11 11:15</time>
         
     </div>
     <div class="article-meta">
@@ -386,62 +384,144 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>简单命令</strong></p>
-<hr>
-<ol>
-<li>一条<pre><code class="bash">ssh root@hh.demo.net &quot;ls -la&quot;
-total 1536
-drwx------  6 root root    4096 Nov  8 13:17 .
-drwxr-xr-x 22 root root    4096 Nov  8 11:36 ..
--rw-------  1 root root    1317 Nov  8 16:10 .bash_history
--rw-r--r--  1 root root    3106 Apr  9  2018 .bashrc
-drwx------  3 root root    4096 Jun 24 18:10 .cache
-drwx------  3 root root    4096 Jun 25 02:06 .gnupg
--rw-------  1 root root     207 Nov  8 11:43 .mysql_history
-drwxr-xr-x  2 root root    4096 Jun 24 18:10 .pip
--rw-r--r--  1 root root     148 Aug 17  2015 .profile
--rw-r--r--  1 root root     205 Nov  7 17:28 .pydistutils.cfg
-drwx------  2 root root    4096 Nov  8 11:33 .ssh
--rw-------  1 root root   11904 Nov  8 13:17 .viminfo</code></pre>
+        <p>##1. 包地址： ##</p>
+<blockquote>
+<p><a href="https://github.com/360EntSecGroup-Skylar/excelize" target="_blank" rel="noopener">https://github.com/360EntSecGroup-Skylar/excelize</a></p>
+</blockquote>
+<p>##2. 使用说明##</p>
+<p>此包的readme已经有比较不错的使用说明了，这里不做过多深入，简单引用/翻译下吧。</p>
+<ul>
+<li><p>安装：</p>
+<pre><code class="bash">go get github.com/360EntSecGroup-Skylar/excelize
+#如果使用go mod环境：
+go get github.com/360EntSecGroup-Skylar/excelize@master
+或者：go get github.com/360EntSecGroup-Skylar/excelize@tag</code></pre>
 </li>
-<li>执行多条<pre><code class="bash">ssh root@hh.demo.net &quot;df -lh; date&quot;
-Filesystem      Size  Used Avail Use% Mounted on
-udev            2.0G     0  2.0G   0% /dev
-tmpfs           395M  2.8M  392M   1% /run
-/dev/vda1        20G  4.0G   15G  22% /
-tmpfs           2.0G     0  2.0G   0% /dev/shm
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           2.0G     0  2.0G   0% /sys/fs/cgroup
-tmpfs           395M     0  395M   0% /run/user/0
-Fri Nov  8 16:14:50 CST 2019</code></pre>
-命令间使用 ； 间隔，当命令多于一个时最好用引号括起来，否则在有的系统中除了第一个命令，其它都是在本地执行的。</li>
-</ol>
-<p><strong>需要交互的命令</strong></p>
-<hr>
-<p>使用-t参数，让系统分配tty给ssh保持登录状态。如：</p>
-<pre><code class="bash">ssh -t user@hh.demo.net &quot;sudo apt update&quot;</code></pre>
-<p><strong>多行命令</strong></p>
-<hr>
-<p>用单引号或双引号开头，然后输入命令，最后再用相同的引号来结束。如：</p>
-<pre><code class="bash">ssh root@hh.demo.net &#39;
-&gt; ls
-&gt; date
-&gt; pwd
-&gt; &#39;
-demo.sql
-Fri Nov  8 16:22:09 CST 2019
-/root</code></pre>
-<p>如果需要在命令中使用变量，那么需要添加-c参数。</p>
-<p><strong>运行客户端脚本</strong></p>
-<hr>
-<p>使用重定向 &lt; 在远程服务器上执行本地脚本。如：</p>
-<pre><code class="bash">ssh root@hh.demo.net &lt; script.sh</code></pre>
-<p>如果执行脚本需要带入参数，ssh通过bash  -s 参数指定。</p>
-<pre><code class="bash">ssh root@hh.demo.net &#39;bash -s&#39; &lt; script.sh param</code></pre>
-<p><strong>运行服务器脚本</strong></p>
-<hr>
-<p>如同执行简单的远程命令，直接指定脚本路径就可以了，但是要注意使用绝对路径和系统的PATH。<br>如果需要带入脚本参数，可直接跟在命令后边。如：</p>
-<pre><code class="bash">ssh root@hh.demo.net /root/script.sh param</code></pre>
+<li><p>文件(sheet表)的创建/写入</p>
+<pre><code class="go">package main
+import (
+  &quot;fmt&quot;
+  &quot;github.com/360EntSecGroup-Skylar/excelize&quot;
+)
+func main() {
+  f := excelize.NewFile()
+  // Create a new sheet.
+  index := f.NewSheet(&quot;Sheet2&quot;)
+  // Set value of a cell.
+  f.SetCellValue(&quot;Sheet2&quot;, &quot;A2&quot;, &quot;Hello world.&quot;)
+  f.SetCellValue(&quot;Sheet1&quot;, &quot;B2&quot;, 100)
+  // Set active sheet of the workbook.
+  f.SetActiveSheet(index)
+  // Save xlsx file by the given path.
+  err := f.SaveAs(&quot;./Book1.xlsx&quot;)
+  if err != nil {
+      fmt.Println(err)
+  }
+}</code></pre>
+</li>
+<li><p>文件的读取</p>
+<pre><code class="go">package main
+import (
+  &quot;fmt&quot;
+  &quot;github.com/360EntSecGroup-Skylar/excelize&quot;
+)
+func main() {
+  f, err := excelize.OpenFile(&quot;./Book1.xlsx&quot;)
+  if err != nil {
+      fmt.Println(err)
+      return
+  }
+  // Get value from cell by given worksheet name and axis.
+  cell, err := f.GetCellValue(&quot;Sheet1&quot;, &quot;B2&quot;)
+  if err != nil {
+      fmt.Println(err)
+      return
+  }
+  fmt.Println(cell)
+  // Get all the rows in the Sheet1.
+  rows, err := f.GetRows(&quot;Sheet1&quot;)
+  for _, row := range rows {
+      for _, colCell := range row {
+          fmt.Print(colCell, &quot;\t&quot;)
+      }
+      fmt.Println()
+  }
+}</code></pre>
+</li>
+<li><p>在文件中插入图表<br><img src="/2019/11/11/HandleXLSXByGolang/chart.png" alt></p>
+<pre><code class="go">package main
+import (
+  &quot;fmt&quot;
+  &quot;github.com/360EntSecGroup-Skylar/excelize&quot;
+)
+func main() {
+  categories := map[string]string{&quot;A2&quot;: &quot;Small&quot;, &quot;A3&quot;: &quot;Normal&quot;, &quot;A4&quot;: &quot;Large&quot;, &quot;B1&quot;: &quot;Apple&quot;, &quot;C1&quot;: &quot;Orange&quot;, &quot;D1&quot;: &quot;Pear&quot;}
+  values := map[string]int{&quot;B2&quot;: 2, &quot;C2&quot;: 3, &quot;D2&quot;: 3, &quot;B3&quot;: 5, &quot;C3&quot;: 2, &quot;D3&quot;: 4, &quot;B4&quot;: 6, &quot;C4&quot;: 7, &quot;D4&quot;: 8}
+  f := excelize.NewFile()
+  for k, v := range categories {
+      f.SetCellValue(&quot;Sheet1&quot;, k, v)
+  }
+  for k, v := range values {
+      f.SetCellValue(&quot;Sheet1&quot;, k, v)
+  }
+  err := f.AddChart(&quot;Sheet1&quot;, &quot;E1&quot;, `{&quot;type&quot;:&quot;col3DClustered&quot;,&quot;series&quot;:[
+{&quot;name&quot;:&quot;Sheet1!$A$2&quot;,&quot;categories&quot;:&quot;Sheet1!$B$1:$D$1&quot;,&quot;values&quot;:&quot;Sheet1!$B$2:$D$2&quot;},
+{&quot;name&quot;:&quot;Sheet1!$A$3&quot;,&quot;categories&quot;:&quot;Sheet1!$B$1:$D$1&quot;,&quot;values&quot;:&quot;Sheet1!$B$3:$D$3&quot;},
+{&quot;name&quot;:&quot;Sheet1!$A$4&quot;,&quot;categories&quot;:&quot;Sheet1!$B$1:$D$1&quot;,&quot;values&quot;:&quot;Sheet1!$B$4:$D$4&quot;}
+],
+&quot;title&quot;:{&quot;name&quot;:&quot;Fruit 3D Clustered Column Chart&quot;}}`)
+  if err != nil {
+      fmt.Println(err)
+      return
+  }
+  // Save xlsx file by the given path.
+  err = f.SaveAs(&quot;./Book1.xlsx&quot;)
+  if err != nil {
+      fmt.Println(err)
+  }
+}</code></pre>
+</li>
+<li><p>在文件中插入图片</p>
+<pre><code class="go">package main
+import (
+  &quot;fmt&quot;
+  _ &quot;image/gif&quot;
+  _ &quot;image/jpeg&quot;
+  _ &quot;image/png&quot;
+
+  &quot;github.com/360EntSecGroup-Skylar/excelize&quot;
+)
+func main() {
+  f, err := excelize.OpenFile(&quot;./Book1.xlsx&quot;)
+  if err != nil {
+      fmt.Println(err)
+      return
+  }
+  // Insert a picture.
+  err = f.AddPicture(&quot;Sheet1&quot;, &quot;A2&quot;, &quot;./image1.png&quot;, &quot;&quot;)
+  if err != nil {
+      fmt.Println(err)
+  }
+  // Insert a picture to worksheet with scaling.
+  err = f.AddPicture(&quot;Sheet1&quot;, &quot;D2&quot;, &quot;./image2.jpg&quot;, `{&quot;x_scale&quot;: 0.5, &quot;y_scale&quot;: 0.5}`)
+  if err != nil {
+      fmt.Println(err)
+  }
+  // Insert a picture offset in the cell with printing support.
+  err = f.AddPicture(&quot;Sheet1&quot;, &quot;H2&quot;, &quot;./image3.gif&quot;, `{&quot;x_offset&quot;: 15, &quot;y_offset&quot;: 10, &quot;print_obj&quot;: true, &quot;lock_aspect_ratio&quot;: false, &quot;locked&quot;: false}`)
+  if err != nil {
+      fmt.Println(err)
+  }
+  // Save the xlsx file with the origin path.
+  err = f.Save()
+  if err != nil {
+      fmt.Println(err)
+  }
+}</code></pre>
+</li>
+</ul>
+<p>##3. 注意事项##</p>
+<p>暂时还没有发现，以后遇到会随时添加……</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -451,12 +531,12 @@ Fri Nov  8 16:22:09 CST 2019
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>SSH远程执行命令/脚本</p>
+    <p><span class="copy-title">文章标题:</span>Golang 读写XLSX文件</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-08, 14:20:26</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-08, 21:21:25</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/08/SSHRemote/" title="SSH远程执行命令/脚本">https://blog.walkbc.com/2019/11/08/SSHRemote/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-11, 11:15:13</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-11, 11:52:39</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/11/HandleXLSXByGolang/" title="Golang 读写XLSX文件">https://blog.walkbc.com/2019/11/11/HandleXLSXByGolang/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
