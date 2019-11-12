@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>ubuntu安装PHP环境 | Walk</title>
-  <meta name="keywords" content=" php , php-fpm , linux , ubuntu , install ">
-  <meta name="description" content="ubuntu安装PHP环境 | Walk">
+  <title>Golang 数据库操作之grom | Walk</title>
+  <meta name="keywords" content=" golang , orm , 数据库 , database ">
+  <meta name="description" content="Golang 数据库操作之grom | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="1. 问题背景 基于LNMP的项目中需要上传图片和文件，但是如果文件size比较大时，会出现上传失败的现象。这个size通常是1MB&#x2F;2MB。其实这个限制通常会出现在三个部分：  nginx的限制 php的限制 代码和防火墙的限制  第三部分的限制不好说，需要根据实际情况进行处理。 2. nginx部分的设置 #需要注意的地方有三个：  sendfile    on;    设置为on表示启动高效">
 <meta name="keywords" content="nginx,php,php-fpm,linux,ubuntu">
@@ -342,9 +342,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-PHPInstall" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-GolangORM-gorm" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">ubuntu安装PHP环境</h1>
+        <h1 class="article-title">Golang 数据库操作之grom</h1>
     
     <div class="article-meta">
         
@@ -352,29 +352,27 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="应用软件 noopener">应用软件</a>
+                <a href="javascript:" target="_blank" data-rel="GO第三方包 noopener">GO第三方包</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">php</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">php-fpm</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color1">linux</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">ubuntu</a>
-            
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">install</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-08 20:48:02'>2019-11-08 14:20</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-11 18:06:41'>2019-11-11 17:43</time>
         
     </div>
     <div class="article-meta">
@@ -407,7 +405,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-安装软件源拓展"><span class="toc-text">1. 安装软件源拓展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-安装软件"><span class="toc-text">2. 安装软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-php-fpm管理"><span class="toc-text">3. php-fpm管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-其他php组件"><span class="toc-text">4. 其他php组件</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -423,78 +421,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>适用系统：Ubuntu 16.0414.04/18.04 LTS</strong></p>
-<h2 id="1-安装软件源拓展"><a href="#1-安装软件源拓展" class="headerlink" title="1. 安装软件源拓展"></a>1. 安装软件源拓展</h2><p>安装软件源拓展工具：</p>
-<pre><code class="bash">apt -y install software-properties-common</code></pre>
-<p>添加 PHP PPA 源，需要按一次回车：</p>
-<pre><code class="bash">add-apt-repository ppa:ondrej/php  </code></pre>
-<p>更新软件源缓存：</p>
-<pre><code class="bash">apt update</code></pre>
-<h2 id="2-安装软件"><a href="#2-安装软件" class="headerlink" title="2. 安装软件"></a>2. 安装软件</h2><p>安装 PHP7.1：</p>
-<pre><code class="bash">apt install php7.1-fpm php7.1-mysql php7.1-curl php7.1-gd php7.1-mbstring php7.1-mcrypt php7.1-xml php7.1-xmlrpc php7.1-zip php7.1-opcache -y</code></pre>
-<p>安装 PHP7.0：</p>
-<pre><code class="bash">apt install php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php7.0-mbstring php7.0-mcrypt php7.0-xml php7.0-xmlrpc php7.0-zip php7.0-opcache -y</code></pre>
-<p>安装 PHP5.6：</p>
-<pre><code class="bash">apt install php5.6-fpm php5.6-mysql php5.6-curl php5.6-gd php5.6-mbstring php5.6-mcrypt php5.6-xml php5.6-xmlrpc php5.6-zip php5.6-opcache -y</code></pre>
-<h2 id="3-php-fpm管理"><a href="#3-php-fpm管理" class="headerlink" title="3. php-fpm管理"></a>3. php-fpm管理</h2><pre><code class="bash">systemctl restart php7.1-fpm #重启
-systemctl start php7.1-fpm #启动
-systemctl stop php7.1-fpm #关闭
-systemctl status php7.1-fpm #检查状态
-#或者
-service php7.1-fpm start
-service php7.1-fpm stop
-service php7.1-fpm restart
-service php7.1-fpm status</code></pre>
-<p>查看当前 PHP 版本：</p>
-<pre><code class="bash"># php -v
-PHP 7.1.33-1+ubuntu18.04.1+deb.sury.org+1 (cli) (built: Oct 26 2019 19:29:18) ( NTS )
-Copyright (c) 1997-2018 The PHP Group
-Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
-    with Zend OPcache v7.1.33-1+ubuntu18.04.1+deb.sury.org+1, Copyright (c) 1999-2018, by Zend Technologies</code></pre>
-<h2 id="4-其他php组件"><a href="#4-其他php组件" class="headerlink" title="4. 其他php组件"></a>4. 其他php组件</h2><p>上面的一条命令安装 PHP 只是安装了部分 PHP 拓展，更多的软件可见：</p>
-<pre><code class="bash"># apt-cache search php7.1
-
-libapache2-mod-php7.1 - server-side, HTML-embedded scripting language (Apache 2 module)
-php-all-dev - package depending on all supported PHP development packages
-php7.1 - server-side, HTML-embedded scripting language (metapackage)
-php7.1-cgi - server-side, HTML-embedded scripting language (CGI binary)
-php7.1-cli - command-line interpreter for the PHP scripting language
-php7.1-common - documentation, examples and common module for PHP
-php7.1-curl - CURL module for PHP
-php7.1-dev - Files for php7.1 module development
-php7.1-gd - GD module for PHP
-php7.1-gmp - GMP module for PHP
-php7.1-json - JSON module for PHP
-php7.1-ldap - LDAP module for PHP
-php7.1-mysql - MySQL module for PHP
-php7.1-odbc - ODBC module for PHP
-php7.1-opcache - Zend OpCache module for PHP
-php7.1-pgsql - PostgreSQL module for PHP
-php7.1-pspell - pspell module for PHP
-php7.1-readline - readline module for PHP
-php7.1-recode - recode module for PHP
-php7.1-snmp - SNMP module for PHP
-php7.1-sqlite3 - SQLite3 module for PHP
-php7.1-tidy - tidy module for PHP
-php7.1-xml - DOM, SimpleXML, WDDX, XML, and XSL module for PHP
-php7.1-xmlrpc - XMLRPC-EPI module for PHP
-libphp7.1-embed - HTML-embedded scripting language (Embedded SAPI library)
-php7.1-bcmath - Bcmath module for PHP
-php7.1-bz2 - bzip2 module for PHP
-php7.1-enchant - Enchant module for PHP
-php7.1-fpm - server-side, HTML-embedded scripting language (FPM-CGI binary)
-php7.1-imap - IMAP module for PHP
-php7.1-interbase - Interbase module for PHP
-php7.1-intl - Internationalisation module for PHP
-php7.1-mbstring - MBSTRING module for PHP
-php7.1-mcrypt - libmcrypt module for PHP
-php7.1-phpdbg - server-side, HTML-embedded scripting language (PHPDBG binary)
-php7.1-soap - SOAP module for PHP
-php7.1-sybase - Sybase module for PHP
-php7.1-xsl - XSL module for PHP (dummy)
-php7.1-zip - Zip module for PHP
-php7.1-dba - DBA module for PHP</code></pre>
-
+        
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
     </div>
@@ -503,12 +430,12 @@ php7.1-dba - DBA module for PHP</code></pre>
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>ubuntu安装PHP环境</p>
+    <p><span class="copy-title">文章标题:</span>Golang 数据库操作之grom</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-08, 14:20:46</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-08, 20:48:02</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/08/PHPInstall/" title="ubuntu安装PHP环境">https://blog.walkbc.com/2019/11/08/PHPInstall/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-11, 17:43:01</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-11, 18:06:41</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/11/GolangORM-gorm/" title="Golang 数据库操作之grom">https://blog.walkbc.com/2019/11/11/GolangORM-gorm/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
