@@ -127,7 +127,7 @@
     
         
             
-            <li><div data-rel="GO第三方包">GO第三方包<small>(2)</small></div>
+            <li><div data-rel="应用软件">应用软件<small>(4)</small></div>
                 
             </li>
             
@@ -135,7 +135,7 @@
     
         
             
-            <li><div data-rel="应用软件">应用软件<small>(4)</small></div>
+            <li><div data-rel="GO第三方包">GO第三方包<small>(2)</small></div>
                 
             </li>
             
@@ -210,22 +210,6 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color1">nginx</a>
     </li>
     
@@ -243,6 +227,22 @@
     
     <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color2">ubuntu</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -311,20 +311,20 @@
     
     <nav id="title-list-nav">
         
-        <a  class="GO第三方包 "
-           href="/2019/11/11/GolangORM-gorm/"
-           data-tag="golang,orm,数据库,database"
-           data-author="" >
-            <span class="post-title" title="Golang 数据库操作之grom">Golang 数据库操作之grom</span>
-            <span class="post-date" title="2019-11-11 17:43:01">2019/11/11</span>
-        </a>
-        
         <a  class="应用软件 "
            href="/2019/11/11/FileUploadSetupOfNginxAndPhp/"
            data-tag="nginx,php,php-fpm,linux,ubuntu"
            data-author="" >
             <span class="post-title" title="Nginx &amp; PHP-FPM环境下，文件上传部分的设置">Nginx &amp; PHP-FPM环境下，文件上传部分的设置</span>
             <span class="post-date" title="2019-11-11 17:41:46">2019/11/11</span>
+        </a>
+        
+        <a  class="GO第三方包 "
+           href="/2019/11/11/GolangORM-gorm/"
+           data-tag="golang,orm,数据库,database"
+           data-author="" >
+            <span class="post-title" title="Golang 数据库操作之grom">Golang 数据库操作之grom</span>
+            <span class="post-date" title="2019-11-11 17:43:01">2019/11/11</span>
         </a>
         
         <a  class="GO第三方包 "
@@ -431,7 +431,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-17 18:41:18'>2019-11-17 17:20</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-17 18:44:03'>2019-11-17 17:20</time>
         
     </div>
     <div class="article-meta">
@@ -504,9 +504,9 @@ enum Gender {
 }
 
 message Grade {
-  int32 id = 1;        //整形
+    int32 id = 1;        //整形
     string name = 2;    //字符串
-  Gender gender = 3;    //枚举类型
+    Gender gender = 3;    //枚举类型
     map&lt;string, float&gt; score = 4;    //map映射
 }
 </code></pre>
@@ -532,7 +532,7 @@ protoc --go_out=./ -I=./ *.proto</code></pre>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
     <p><span class="copy-title">发布时间:</span>2019-11-17, 17:20:49</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-17, 18:41:18</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-17, 18:44:03</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/17/protobufWithGolang/" title="Go语言环境中使用Protobuf3">https://blog.walkbc.com/2019/11/17/protobufWithGolang/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -597,7 +597,7 @@ protoc --go_out=./ -I=./ *.proto</code></pre>
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#golang','#orm','#数据库','#database','#nginx','#php','#php-fpm','#linux','#ubuntu','#文件格式','#xlsx','#install','#openVPN','#ssh','#remote','#script','#protobuf','#语法','#基础','#rust','#基础资料','#入门','#markdown','#protobuf3',],
+            'data': ['#nginx','#php','#php-fpm','#linux','#ubuntu','#golang','#orm','#数据库','#database','#文件格式','#xlsx','#install','#openVPN','#ssh','#remote','#script','#protobuf','#语法','#基础','#rust','#基础资料','#入门','#markdown','#protobuf3',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
