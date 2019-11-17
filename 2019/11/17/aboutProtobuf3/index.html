@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Protobuf3 基础(不是翻译) | Walk</title>
+  <meta name="keywords" content=" protobuf , 语法 , 基础 ">
+  <meta name="description" content="Protobuf3 基础(不是翻译) | Walk">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.walkbc.com&#x2F;about&#x2F;index.html">
+<meta property="og:site_name" content="Walk">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2019-11-04T09:23:56.158Z">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/sublime.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1" ></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.0.1" ></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value="">
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>dino</span>
+</div>
+
+<div class="icon">
+    
+        
+    
+        
+        <a title="github" href="https://github.com/IrvinYoung" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:irvin.em@live.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=268786603" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(9)</small></div></li>
+    
+        
+            
+            <li><div data-rel="GO第三方包">GO第三方包<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="应用软件">应用软件<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="基础常识">基础常识<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="RUST">RUST<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="9">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://www.baidu.com/">百度</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color1">nginx</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">php</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">php-fpm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color1">linux</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color2">ubuntu</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">install</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">openVPN</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">文件格式</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">xlsx</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">protobuf</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">语法</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">基础</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">markdown</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">ssh</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color2">remote</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color2">script</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">rust</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">基础资料</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">入门</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="GO第三方包 "
+           href="/2019/11/11/GolangORM-gorm/"
+           data-tag="golang,orm,数据库,database"
+           data-author="" >
+            <span class="post-title" title="Golang 数据库操作之grom">Golang 数据库操作之grom</span>
+            <span class="post-date" title="2019-11-11 17:43:01">2019/11/11</span>
+        </a>
+        
+        <a  class="应用软件 "
+           href="/2019/11/11/FileUploadSetupOfNginxAndPhp/"
+           data-tag="nginx,php,php-fpm,linux,ubuntu"
+           data-author="" >
+            <span class="post-title" title="Nginx &amp; PHP-FPM环境下，文件上传部分的设置">Nginx &amp; PHP-FPM环境下，文件上传部分的设置</span>
+            <span class="post-date" title="2019-11-11 17:41:46">2019/11/11</span>
+        </a>
+        
+        <a  class="应用软件 "
+           href="/2019/11/05/InstallOpenVPNInUbuntu/"
+           data-tag="linux,ubuntu,install,openVPN"
+           data-author="" >
+            <span class="post-title" title="在ubuntu环境上安装OpenVPN服务">在ubuntu环境上安装OpenVPN服务</span>
+            <span class="post-date" title="2019-11-05 17:13:27">2019/11/05</span>
+        </a>
+        
+        <a  class="GO第三方包 "
+           href="/2019/11/11/HandleXLSXByGolang/"
+           data-tag="golang,文件格式,xlsx"
+           data-author="" >
+            <span class="post-title" title="Golang 读写XLSX文件">Golang 读写XLSX文件</span>
+            <span class="post-date" title="2019-11-11 11:15:13">2019/11/11</span>
+        </a>
+        
+        <a  class="基础常识 "
+           href="/2019/11/17/aboutProtobuf3/"
+           data-tag="protobuf,语法,基础"
+           data-author="" >
+            <span class="post-title" title="Protobuf3 基础(不是翻译)">Protobuf3 基础(不是翻译)</span>
+            <span class="post-date" title="2019-11-17 17:02:47">2019/11/17</span>
+        </a>
+        
+        <a  class="应用软件 "
+           href="/2019/11/08/PHPInstall/"
+           data-tag="php,php-fpm,linux,ubuntu,install"
+           data-author="" >
+            <span class="post-title" title="ubuntu安装PHP环境">ubuntu安装PHP环境</span>
+            <span class="post-date" title="2019-11-08 14:20:46">2019/11/08</span>
+        </a>
+        
+        <a  class="基础常识 "
+           href="/2019/11/04/markdown/"
+           data-tag="语法,markdown"
+           data-author="" >
+            <span class="post-title" title="markdown 基础语法">markdown 基础语法</span>
+            <span class="post-date" title="2019-11-04 17:15:25">2019/11/04</span>
+        </a>
+        
+        <a  class="应用软件 "
+           href="/2019/11/08/SSHRemote/"
+           data-tag="linux,ssh,remote,script"
+           data-author="" >
+            <span class="post-title" title="SSH远程执行命令/脚本">SSH远程执行命令/脚本</span>
+            <span class="post-date" title="2019-11-08 14:20:26">2019/11/08</span>
+        </a>
+        
+        <a  class="RUST "
+           href="/2019/11/14/aboutRust/"
+           data-tag="rust,基础资料,入门"
+           data-author="" >
+            <span class="post-title" title="Rust入门参考资料">Rust入门参考资料</span>
+            <span class="post-date" title="2019-11-14 14:26:48">2019/11/14</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-aboutProtobuf3" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Protobuf3 基础(不是翻译)</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a href="javascript:" target="_blank" data-rel="基础常识 noopener">基础常识</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">protobuf</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">语法</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">基础</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2019-11-17 17:02:47'>2019-11-17 17:02</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字段类型"><span class="toc-text">字段类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字段标识号"><span class="toc-text">字段标识号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字段规则"><span class="toc-text">字段规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#proto文件编译后的结果"><span class="toc-text">proto文件编译后的结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Any"><span class="toc-text">Any</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Oneof"><span class="toc-text">Oneof</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map（映射）"><span class="toc-text">Map（映射）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#定义服务-Service"><span class="toc-text">定义服务(Service)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JSON-映射"><span class="toc-text">JSON 映射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#选项"><span class="toc-text">选项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义选项"><span class="toc-text">自定义选项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成访问类"><span class="toc-text">生成访问类</span></a>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><pre><code class="protobuf">syntax = &quot;proto3&quot;;    //指定protobuf版本
+
+package foo.bar;    //包声明
+
+import &quot;myproject/other_protos.proto&quot;;    //导入依赖
+
+message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+}
+
+message Open { ... }
+</code></pre>
+<p><strong>说明：</strong></p>
+<ol>
+<li><p>注释同c/c++语法：单行以 // 注释；多行以：<code>/* 和 */</code> 注释。</p>
+</li>
+<li><p>每行以分号 ； 结束，类似于c/c++语法。</p>
+</li>
+<li><p>文件的第一个非空非注释行需要指定protobuf版本，如：<code>syntax = &quot;proto3&quot;;</code> 如果不指定，默认为protobuf2。如果使用gRPC，推荐使用protobuf3。</p>
+</li>
+<li><p>如果需要使用的消息已经在其他proto文件中定义，那么可以使用<code>import</code>将其导入。如：<code>import &quot;myproject/other_protos.proto&quot;;</code></p>
+</li>
+<li><p>package包声明是可选的，可以防止不同的消息类型有命名冲突。在proto转为响应代码时，package也会做和语法相关的处理：</p>
+<ul>
+<li><p>对于C++，产生的类会被包装在C++的命名空间中，如上例中的Open会被封装在 foo::bar空间中</p>
+</li>
+<li><p>对于Java，包声明符会变为java的一个包，除非在 .proto 文件中明确提供选项 java_package，否则该包将用作 Java 包</p>
+</li>
+<li><p>对于 Python，这个包声明符是被忽略的，因为Python模块是按照其在文件系统中的位置进行组织的</p>
+</li>
+<li><p>对于Go，包可以被用做Go包名称，除非你显式的提供一个option go_package在你的.proto文件中</p>
+</li>
+<li><p>对于Ruby，生成的类可以被包装在内置的Ruby名称空间中，转换成Ruby所需的大小写样式 （首字母大写；如果第一个符号不是一个字母，则使用PB_前缀），例如Open会在Foo::Bar名称空间中</p>
+</li>
+<li><p>对于javaNano包会使用Java包，除非你在你的文件中显式的提供一个option java_package</p>
+</li>
+<li><p>对于C#包可以转换为PascalCase后作为名称空间，除非你在文件中显式的提供一个option csharp_namespace，例如，Open会在Foo.Bar名称空间中</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="字段类型"><a href="#字段类型" class="headerlink" title="字段类型"></a>字段类型</h2><pre><code class="protobuf">message Demo {
+    int32 id = 1;        //整形
+    string name = 2;    //字符串
+    enum Gender {        //此处定义enmu类型
+      UNKNOW = 0;
+      MALE = 1;
+      FEMALE = 2;
+    }
+    Gender gender = 3;    //枚举类型
+    map&lt;string, Project&gt; projects = 4;    //map映射
+}
+</code></pre>
+<p><strong>说明</strong>：</p>
+<ol>
+<li>字段类型可以时标量类型（整形，浮点型，布尔，字符串，bytes）；也可以是合成类型（“结构体/对象”，枚举，map）</li>
+<li>关于标量类型proto和其他主流语言的对应关系：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>.proto</th>
+<th align="left">Notes</th>
+<th>C++</th>
+<th>Java</th>
+<th>Python</th>
+<th>Go</th>
+<th>Ruby</th>
+<th>C#</th>
+<th>PHP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>double</td>
+<td align="left"></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>float64</td>
+<td>Float</td>
+<td>double</td>
+<td>float</td>
+</tr>
+<tr>
+<td>float</td>
+<td align="left"></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>float32</td>
+<td>Float</td>
+<td>float</td>
+<td>float</td>
+</tr>
+<tr>
+<td>int32</td>
+<td align="left">使用变长编码，对于负值的效率很低，如果你的域有可能有负值，请使用sint64替代</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>Fixnum 或者 Bignum（根据需要）</td>
+<td>int</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td align="left">使用变长编码</td>
+<td>uint32</td>
+<td>int</td>
+<td>int/long</td>
+<td>uint32</td>
+<td>Fixnum 或者 Bignum（根据需要）</td>
+<td>uint</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td align="left">使用变长编码</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>Bignum</td>
+<td>ulong</td>
+<td>integer/string</td>
+</tr>
+<tr>
+<td>sint32</td>
+<td align="left">使用变长编码，这些编码在负值时比int32高效的多</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>Fixnum 或者 Bignum（根据需要）</td>
+<td>int</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>sint64</td>
+<td align="left">使用变长编码，有符号的整型值。编码时比通常的int64高效。</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>Bignum</td>
+<td>long</td>
+<td>integer/string</td>
+</tr>
+<tr>
+<td>fixed32</td>
+<td align="left">总是4个字节，如果数值总是比总是比228大的话，这个类型会比uint32高效。</td>
+<td>uint32</td>
+<td>int</td>
+<td>int</td>
+<td>uint32</td>
+<td>Fixnum 或者 Bignum（根据需要）</td>
+<td>uint</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>fixed64</td>
+<td align="left">总是8个字节，如果数值总是比总是比256大的话，这个类型会比uint64高效。</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>Bignum</td>
+<td>ulong</td>
+<td>integer/string</td>
+</tr>
+<tr>
+<td>sfixed32</td>
+<td align="left">总是4个字节</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>Fixnum 或者 Bignum（根据需要）</td>
+<td>int</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>sfixed64</td>
+<td align="left">总是8个字节</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>Bignum</td>
+<td>long</td>
+<td>integer/string</td>
+</tr>
+<tr>
+<td>bool</td>
+<td align="left"></td>
+<td>bool</td>
+<td>boolean</td>
+<td>bool</td>
+<td>bool</td>
+<td>TrueClass/FalseClass</td>
+<td>bool</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>string</td>
+<td align="left">一个字符串必须是UTF-8编码或者7-bit ASCII编码的文本。</td>
+<td>string</td>
+<td>String</td>
+<td>str/unicode</td>
+<td>string</td>
+<td>String (UTF-8)</td>
+<td>string</td>
+<td>string</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td align="left">可能包含任意顺序的字节数据。</td>
+<td>string</td>
+<td>ByteString</td>
+<td>str</td>
+<td>[]byte</td>
+<td>String (ASCII-8BIT)</td>
+<td>ByteString</td>
+<td>string</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li><p>fix和double固定长度，int，uint，sint为变长整形，当value包含负数时，使用sint编码效率比int更高。</p>
+</li>
+<li><p>标量默认值：</p>
+<ul>
+<li>对于strings，默认是一个空string</li>
+<li>对于bytes，默认是一个空的bytes</li>
+<li>对于bools，默认是false</li>
+<li>对于数值类型，默认是0</li>
+<li>对于枚举，默认是第一个定义的枚举值，必须为0</li>
+<li>对于消息类型（message），域没有被设置，确切的消息是根据语言确定的</li>
+</ul>
+</li>
+<li><p>关于枚举类型 enum：</p>
+<ul>
+<li><p>必须有有一个0值，我们可以用这个0值作为默认值。</p>
+</li>
+<li><p>这个零值必须为第一个元素，为了兼容proto2语义，枚举类的第一个值总是默认值。</p>
+</li>
+<li><p>可以通过将不同的枚举常量指定位相同的值。如果这样做你需要将allow_alias设定位true，否则编译器会在别名的地方产生一个错误信息。</p>
+</li>
+<li><pre><code class="protobuf">enum EnumAllowingAlias {
+  option allow_alias = true;
+      UNKNOWN = 0;
+      STARTED = 1;
+      RUNNING = 1;
+}
+enum EnumNotAllowingAlias {
+  UNKNOWN = 0;
+  STARTED = 1;
+  // RUNNING = 1;  // Uncommenting this line will cause a compile error inside Google and a warning message outside.
+}</code></pre>
+</li>
+<li><p>枚举常量必须在32位整型值的范围内。因为enum值是使用可变编码方式的，对负数不够高效，因此不推荐在enum中使用负数。</p>
+</li>
+<li><p>枚举类型可以在 一个消息定义的内部定义，也可以在消息外部单独定义。</p>
+</li>
+<li><p>如果需要使用另外一个消息中定义的枚举，需要使用形如：MessageType.EnumType的语法。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="字段标识号"><a href="#字段标识号" class="headerlink" title="字段标识号"></a>字段标识号</h2><pre><code class="protobuf">message Demo {
+    int32 id = 1;            //标识号为1，是Demo消息中的第一个字段
+    string name = 2;    //标明是第二个字段
+    enum Gender {
+      UNKNOW = 0;
+      MALE = 1;
+      FEMALE = 2;
+    }
+    Gender gender = 3;
+    map&lt;string, Project&gt; projects = 4;
+}
+</code></pre>
+<p><strong>说明：</strong></p>
+<ol>
+<li>如上面的代码所示，在消息定义中，每个字段都有唯一的一个数字标识符。</li>
+<li>这些标识符是用来在消息的二进制格式中指定各个字段的位置，一旦设定就不能够再改变。</li>
+<li>[1,15]之内的标识号在编码的时候会占用一个字节。[16,2047]之内的标识号则占用2个字节。所以应该为那些频繁出现的消息元素保留 [1,15]之内的标识号。要为将来有可能添加的、频繁出现的标识号预留一些标识号。</li>
+<li>最小的标识号可以从1开始，最大到536870911（2^29 - 1），其中的[19000－19999]为预留标识号，不可以使用。</li>
+</ol>
+<h2 id="字段规则"><a href="#字段规则" class="headerlink" title="字段规则"></a>字段规则</h2><ol>
+<li><p>所指定的消息字段修饰符必须是如下之一：</p>
+<ul>
+<li>singular：一个格式良好的消息应该有0个或者1个这种字段（但是不能超过1个）。</li>
+<li>repeated：在一个格式良好的消息中，这种字段可以重复任意多次（包括0次）。重复的值的顺序会被保留。</li>
+<li>在proto3中，repeated的标量域默认情况虾使用packed。</li>
+<li>如果不指定字段规则，proto3默认字段规则为： <strong>singular</strong>。</li>
+</ul>
+</li>
+<li><p>关于保留字段：</p>
+<blockquote>
+<p>如果你通过删除或者注释所有域，以后的用户可以重用标识号当你重新更新类型的时候。如果你使用旧版本加载相同的.proto文件这会导致严重的问题，包括数据损坏、隐私错误等等。现在有一种确保不会发生这种情况的方法就是指定保留标识符（and/or names, which can also cause issues for JSON serialization不明白什么意思），protocol buffer的编译器会警告未来尝试使用这些域标识符的用户。</p>
+</blockquote>
+<p>其他人是这样翻译的，我说下自己的理解吧：</p>
+<p>如果消息中的某个字段你不想使用了，通常情况下，我们会在代码里注释或者删除掉。但是这种变更其他人可能不知道，仍然继续在使用变更前的消息定义，如此就会出现数据编解码上的问题(字段顺序/数据类型/其他)。所以建议的方法是：对这个不再需要的字段进行标注，这样从发起修改的一方看，原有字段只是不再使用，在编解码时仍然不会忽略掉，如此一来编解码的另一方就不会受到影响。</p>
+<pre><code class="protobuf"> message Foo {
+   reserved 2, 15, 9 to 11;    //可以直接通过标识号指定，需要进行保留的字段
+   reserved &quot;foo&quot;, &quot;bar&quot;;        //也可以通过字段名指定
+ }
+ //注：不要在同一行reserved声明中同时声明域名字和标识号
+</code></pre>
+</li>
+</ol>
+<h2 id="proto文件编译后的结果"><a href="#proto文件编译后的结果" class="headerlink" title="proto文件编译后的结果"></a>proto文件编译后的结果</h2><ul>
+<li>对C++来说，编译器会为每个.proto文件生成一个.h文件和一个.cc文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对Java来说，编译器为每一个消息类型生成了一个.java文件，以及一个特殊的Builder类（该类是用来创建消息类接口的）。</li>
+<li>对Python来说，有点不太一样——Python编译器为.proto文件中的每个消息类型生成一个含有静态描述符的模块，，该模块与一个元类（metaclass）在运行时（runtime）被用来创建所需的Python数据访问类。</li>
+<li>对Go来说，编译器会位每个消息类型生成了一个.pd.go文件。</li>
+<li>对于Ruby来说，编译器会为每个消息类型生成了一个.rb文件。</li>
+<li>对于javaNano来说，编译器输出类似域java但是没有Builder类</li>
+<li>对于Objective-C来说，编译器会为每个消息类型生成了一个pbobjc.h文件和pbobjcm文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对于C#来说，编译器会为每个消息类型生成了一个.cs文件，.proto文件中的每一个消息有一个对应的类。</li>
+</ul>
+<h2 id="Any"><a href="#Any" class="headerlink" title="Any"></a>Any</h2><p>Any类型消息允许你在没有指定他们的.proto定义的情况下使用消息作为一个嵌套类型。一个Any类型包括一个可以被序列化bytes类型的任意消息，以及一个URL作为一个全局标识符和解析消息类型。为了使用Any类型，你需要导入<code>import google/protobuf/any.proto</code></p>
+<pre><code class="protobuf">import &quot;google/protobuf/any.proto&quot;;
+
+message ErrorStatus {
+  string message = 1;
+  repeated google.protobuf.Any details = 2;
+}
+</code></pre>
+<p>对于给定的消息类型的默认类型URL是<code>type.googleapis.com/packagename.messagename</code>。</p>
+<p>不同语言的实现会支持动态库以线程安全的方式去帮助封装或者解封装Any值。例如在java中，Any类型会有特殊的<code>pack()</code>和<code>unpack()</code>访问器，在C++中会有<code>PackFrom()</code>和<code>UnpackTo()</code>方法。目前，用于Any类型的动态库仍在开发之中，如果你已经很熟悉proto2语法，使用Any替换拓展</p>
+<h1 id="Oneof"><a href="#Oneof" class="headerlink" title="Oneof"></a>Oneof</h1><p>如果你的消息中有很多可选字段， 并且同时至多一个字段会被设置， 你可以加强这个行为，使用oneof特性节省内存。</p>
+<p>Oneof字段就像可选字段， 除了它们会共享内存， 至多一个字段会被设置。 设置其中一个字段会清除其它字段。 你可以使用<code>case()</code>或者<code>WhichOneof()</code> 方法检查哪个oneof字段被设置， 看你使用什么语言了。</p>
+<ol>
+<li>使用Oneof<br>为了在.proto定义Oneof字段， 你需要在名字前面加上oneof关键字, 比如下面例子的test_oneof:<pre><code class="protobuf">message SampleMessage {
+ oneof test_oneof {
+   string name = 4;
+   SubMessage sub_message = 9;
+ }
+}</code></pre>
+然后你可以增加oneof字段到 oneof 定义中。你可以增加任意类型的字段, 但是 <strong><em>不能使用repeated 关键字</em></strong>。<br>在产生的代码中, oneof字段拥有同样的 getters 和setters， 就像正常的可选字段一样.。也有一个特殊的方法来检查到底那个字段被设置.。你可以在相应的语言<a href="https://developers.google.com/protocol-buffers/docs/reference/overview?hl=zh-cn" target="_blank" rel="noopener">API指南</a>中找到oneof API介绍。</li>
+</ol>
+<ol start="2">
+<li><p>Oneof 特性</p>
+<ul>
+<li>设置oneof会自动清除其它oneof字段的值.。所以设置多次后，只有最后一次设置的字段有值。</li>
+</ul>
+<pre><code class="protobuf">SampleMessage message;
+message.set_name(&quot;name&quot;);
+CHECK(message.has_name());
+message.mutable_sub_message();   // Will clear name field.
+CHECK(!message.has_name());
+</code></pre>
+<ul>
+<li>如果解析器遇到同一个oneof中有多个成员，只有最会一个会被解析成消息。</li>
+<li>oneof不支持<code>repeated</code>。</li>
+<li>反射API对oneof 字段有效。</li>
+<li>如果使用C++,需确保代码不会导致内存泄漏.。下面的代码会崩溃， 因为<code>sub_message</code> 已经通过<code>set_name()</code>删除了。</li>
+</ul>
+<pre><code class="protobuf">SampleMessage message;
+SubMessage* sub_message = message.mutable_sub_message();
+message.set_name(&quot;name&quot;);      // Will delete sub_message
+sub_message-&gt;set_...            // Crashes here
+</code></pre>
+<ul>
+<li>在C++中，如果你使用<code>Swap()</code>两个oneof消息，每个消息，两个消息将拥有对方的值，例如在下面的例子中，<code>msg1</code>会拥有<code>sub_message</code>并且<code>msg2</code>会有<code>name</code>。</li>
+</ul>
+<pre><code class="protobuf">SampleMessage msg1;
+msg1.set_name(&quot;name&quot;);
+SampleMessage msg2;
+msg2.mutable_sub_message();
+msg1.swap(&amp;msg2);
+CHECK(msg1.has_sub_message());
+CHECK(msg2.has_name());
+</code></pre>
+</li>
+</ol>
+<ol start="3">
+<li><p>向后兼容性问题</p>
+<p>当增加或者删除oneof字段时一定要小心. 如果检查oneof的值返回<code>None/NOT_SET</code>, 它意味着oneof字段没有被赋值或者在一个不同的版本中赋值了。 你不会知道是哪种情况，因为没有办法判断如果未识别的字段是一个oneof字段。</p>
+<p>Tage 重用问题：</p>
+<ul>
+<li>将字段移入或移除oneof：在消息被序列号或者解析后，你也许会失去一些信息（有些字段也许会被清除）</li>
+<li>删除一个字段或者加入一个字段：在消息被序列号或者解析后，这也许会清除你现在设置的oneof字段</li>
+<li>分离或者融合oneof：行为与移动常规字段相似。</li>
+</ul>
+</li>
+</ol>
+<h1 id="Map（映射）"><a href="#Map（映射）" class="headerlink" title="Map（映射）"></a>Map（映射）</h1><p>如果你希望创建一个关联映射，protocol buffer提供了一种快捷的语法：</p>
+<pre><code class="protobuf">map&lt;key_type, value_type&gt; map_field = N;</code></pre>
+<p>其中<code>key_type</code>可以是任意Integer或者string类型（所以，除了floating和bytes的任意标量类型都是可以的）<code>value_type</code>可以是任意类型。</p>
+<p>例如，如果你希望创建一个project的映射，每个<code>Projecct</code>使用一个string作为key，你可以像下面这样定义：</p>
+<pre><code class="protobuf">map&lt;string, Project&gt; projects = 3;</code></pre>
+<ul>
+<li><p>Map的字段可以是repeated。</p>
+</li>
+<li><p>序列化后的顺序和map迭代器的顺序是不确定的，所以你不要期望以固定顺序处理Map</p>
+</li>
+<li><p>当为.proto文件产生生成文本格式的时候，map会按照key 的顺序排序，数值化的key会按照数值排序。</p>
+</li>
+<li><p>从序列化中解析或者融合时，如果有重复的key则后一个key不会被使用，当从文本格式中解析map时，如果存在重复的key。</p>
+</li>
+<li><p>生成map的API现在对于所有proto3支持的语言都可用了，你可以从<a href="https://developers.google.com/protocol-buffers/docs/reference/overview?hl=zh-cn" target="_blank" rel="noopener">API指南</a>找到更多信息。</p>
+</li>
+<li><p>向后兼容性问题：map语法序列化后等同于如下内容，因此即使是不支持map语法的protocol buffer实现也是可以处理你的数据的：</p>
+<pre><code class="protobuf">message MapFieldEntry {
+  key_type key = 1;
+  value_type value = 2;
+}
+
+repeated MapFieldEntry map_field = N;</code></pre>
+</li>
+</ul>
+<h1 id="定义服务-Service"><a href="#定义服务-Service" class="headerlink" title="定义服务(Service)"></a>定义服务(Service)</h1><p>如果想要将消息类型用在RPC(远程方法调用)系统中，可以在.proto文件中定义一个RPC服务接口，protocol buffer编译器将会根据所选择的不同语言生成服务接口代码及存根。如，想要定义一个RPC服务并具有一个方法，该方法能够接收 SearchRequest并返回一个SearchResponse，此时可以在.proto文件中进行如下定义：</p>
+<pre><code class="protobuf">service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+</code></pre>
+<p>最直观的使用protocol buffer的RPC系统是<a href="https://github.com/grpc/grpc-experiments" target="_blank" rel="noopener">gRPC</a>一个由谷歌开发的语言和平台中的开源的PRC系统，gRPC在使用protocl buffer时非常有效，如果使用特殊的protocol buffer插件可以直接为您从.proto文件中产生相关的RPC代码。</p>
+<p>如果你不想使用gRPC，也可以使用protocol buffer用于自己的RPC实现，你可以从<a href="https://developers.google.com/protocol-buffers/docs/proto?hl=zh-cn#services" target="_blank" rel="noopener">proto2语言指南中找到更多信息</a></p>
+<p>还有一些第三方开发的PRC实现使用Protocol Buffer。参考<a href="https://github.com/google/protobuf/blob/master/docs/third_party.md" target="_blank" rel="noopener">第三方插件wiki</a>查看这些实现的列表。</p>
+<h1 id="JSON-映射"><a href="#JSON-映射" class="headerlink" title="JSON 映射"></a>JSON 映射</h1><p>Proto3 支持JSON的编码规范，使他更容易在不同系统之间共享数据，在下表中逐个描述类型。</p>
+<p>如果JSON编码的数据丢失或者其本身就是``，这个数据会在解析成protocol buffer的时候被表示成默认值。如果一个字段在protocol buffer中表示为默认值，体会在转化成JSON的时候编码的时候忽略掉以节省空间。具体实现可以提供在JSON编码中可选的默认值。</p>
+<table>
+<thead>
+<tr>
+<th>proto3</th>
+<th>JSON</th>
+<th>JSON示例</th>
+<th>注意</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>message</td>
+<td>object</td>
+<td>{“fBar”: v, “g”: null, …}</td>
+<td>产生JSON对象，消息字段名可以被映射成lowerCamelCase形式，并且成为JSON对象键，null被接受并成为对应字段的默认值</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>string</td>
+<td>“FOO_BAR”</td>
+<td>枚举值的名字在proto文件中被指定</td>
+</tr>
+<tr>
+<td>map</td>
+<td>object</td>
+<td>{“k”: v, …}</td>
+<td>所有的键都被转换成string</td>
+</tr>
+<tr>
+<td>repeated V</td>
+<td>array</td>
+<td>[v, …]</td>
+<td>null被视为空列表</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>true, false</td>
+<td>true, false</td>
+<td></td>
+</tr>
+<tr>
+<td>string</td>
+<td>string</td>
+<td>“Hello World!”</td>
+<td></td>
+</tr>
+<tr>
+<td>bytes</td>
+<td>base64 string</td>
+<td>“YWJjMTIzIT8kKiYoKSctPUB+”</td>
+<td></td>
+</tr>
+<tr>
+<td>int32, fixed32, uint32</td>
+<td>number</td>
+<td>1, -10, 0</td>
+<td>JSON值会是一个十进制数，数值型或者string类型都会接受</td>
+</tr>
+<tr>
+<td>int64, fixed64, uint64</td>
+<td>string</td>
+<td>“1”, “-10”</td>
+<td>JSON值会是一个十进制数，数值型或者string类型都会接受</td>
+</tr>
+<tr>
+<td>float, double</td>
+<td>number</td>
+<td>1.1, -10.0, 0, “NaN”, “Infinity”</td>
+<td>JSON值会是一个数字或者一个指定的字符串如”NaN”,”infinity”或者”-Infinity”，数值型或者字符串都是可接受的，指数符号也可以接受</td>
+</tr>
+<tr>
+<td>Any</td>
+<td>object</td>
+<td>{“@type”: “url”, “f”: v, … }</td>
+<td>如果一个Any保留一个特上述的JSON映射，则它会转换成一个如下形式：<code>{&quot;@type&quot;: xxx, &quot;value&quot;: yyy}</code>否则，该值会被转换成一个JSON对象，<code>@type</code>字段会被插入所指定的确定的值</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>string</td>
+<td>“1972-01-01T10:00:20.021Z”</td>
+<td>使用RFC 339，其中生成的输出将始终是Z-归一化啊的，并且使用0，3，6或者9位小数</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>string</td>
+<td>“1.000340012s”, “1s”</td>
+<td>生成的输出总是0，3，6或者9位小数，具体依赖于所需要的精度，接受所有可以转换为纳秒级的精度</td>
+</tr>
+<tr>
+<td>Struct</td>
+<td>object</td>
+<td>{ … }</td>
+<td>任意的JSON对象，见struct.proto</td>
+</tr>
+<tr>
+<td>Wrapper types</td>
+<td>various types</td>
+<td>2, “2”, “foo”, true, “true”, null, 0, …</td>
+<td>包装器在JSON中的表示方式类似于基本类型，但是允许nulll，并且在转换的过程中保留null</td>
+</tr>
+<tr>
+<td>FieldMask</td>
+<td>string</td>
+<td>“f.fooBar,h”</td>
+<td>见fieldmask.proto</td>
+</tr>
+<tr>
+<td>ListValue</td>
+<td>array</td>
+<td>[foo, bar, …]</td>
+<td></td>
+</tr>
+<tr>
+<td>Value</td>
+<td>value</td>
+<td></td>
+<td>任意JSON值</td>
+</tr>
+<tr>
+<td>NullValue</td>
+<td></td>
+<td></td>
+<td>JSON null</td>
+</tr>
+</tbody></table>
+<h1 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h1><p>在定义.proto文件时能够标注一系列的options。Options并不改变整个文件声明的含义，但却能够影响特定环境下处理方式。完整的可用选项可以在google/protobuf/descriptor.proto找到。</p>
+<p>一些选项是文件级别的，意味着它可以作用于最外范围，不包含在任何消息内部、enum或服务定义中。一些选项是消息级别的，意味着它可以用在消息定义的内部。当然有些选项可以作用在域、enum类型、enum值、服务类型及服务方法中。到目前为止，并没有一种有效的选项能作用于所有的类型。</p>
+<p>如下就是一些常用的选择：</p>
+<ul>
+<li><p><code>java_package</code> (文件选项) :这个选项表明生成java类所在的包。如果在.proto文件中没有明确的声明java_package，就采用默认的包名。当然了，默认方式产生的 java包名并不是最好的方式，按照应用名称倒序方式进行排序的。如果不需要产生java代码，则该选项将不起任何作用。如：</p>
+<pre><code class="protobuf">option java_package = &quot;com.example.foo&quot;;
+</code></pre>
+</li>
+<li><p><code>java_outer_classname</code> (文件选项): 该选项表明想要生成Java类的名称。如果在.proto文件中没有明确的java_outer_classname定义，生成的class名称将会根据.proto文件的名称采用驼峰式的命名方式进行生成。如（foo_bar.proto生成的java类名为FooBar.java）,如果不生成java代码，则该选项不起任何作用。如：</p>
+<pre><code class="protobuf">option java_outer_classname = &quot;Ponycopter&quot;;
+</code></pre>
+</li>
+<li><p>optimize_for (文件选项): 可以被设置为 SPEED, CODE_SIZE,或者LITE_RUNTIME。这些值将通过如下的方式影响C++及java代码的生成：</p>
+<ul>
+<li><code>SPEED (default)</code>: protocol buffer编译器将通过在消息类型上执行序列化、语法分析及其他通用的操作。这种代码是最优的。</li>
+<li><code>CODE_SIZE</code>: protocol buffer编译器将会产生最少量的类，通过共享或基于反射的代码来实现序列化、语法分析及各种其它操作。采用该方式产生的代码将比SPEED要少得多， 但是操作要相对慢些。当然实现的类及其对外的API与SPEED模式都是一样的。这种方式经常用在一些包含大量的.proto文件而且并不盲目追求速度的 应用中。</li>
+<li><code>LITE_RUNTIME</code>: protocol buffer编译器依赖于运行时核心类库来生成代码（即采用libprotobuf-lite 替代libprotobuf）。这种核心类库由于忽略了一 些描述符及反射，要比全类库小得多。这种模式经常在移动手机平台应用多一些。编译器采用该模式产生的方法实现与SPEED模式不相上下，产生的类通过实现 MessageLite接口，但它仅仅是Messager接口的一个子集。<pre><code class="protobuf">option optimize_for = CODE_SIZE;</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>cc_enable_arenas</code>(文件选项):对于C++产生的代码启用<a href="https://developers.google.com/protocol-buffers/docs/reference/arenas?hl=zh-cn" target="_blank" rel="noopener">arena allocation</a></p>
+</li>
+<li><p><code>objc_class_prefix</code>(文件选项):设置Objective-C类的前缀，添加到所有Objective-C从此.proto文件产生的类和枚举类型。没有默认值，所使用的前缀应该是苹果推荐的3-5个大写字符，注意2个字节的前缀是苹果所保留的。</p>
+</li>
+<li><p><code>deprecated</code>(字段选项):如果设置为<code>true</code>则表示该字段已经被废弃，并且不应该在新的代码中使用。在大多数语言中没有实际的意义。在java中，这回变成<code>@Deprecated</code>注释，在未来，其他语言的代码生成器也许会在字标识符中产生废弃注释，废弃注释会在编译器尝试使用该字段时发出警告。如果字段没有被使用你也不希望有新用户使用它，尝试使用保留语句替换字段声明。</p>
+<pre><code class="protobuf">int32 old_field = 6 [deprecated=true];
+</code></pre>
+</li>
+</ul>
+<h2 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h2><p>ProtocolBuffers允许自定义并使用选项。该功能应该属于一个高级特性，对于大部分人是用不到的。如果你的确希望创建自己的选项，请参看<a href="https://developers.google.com/protocol-buffers/docs/proto?hl=zh-cn#customoptions" target="_blank" rel="noopener"> Proto2 Language Guide</a>。注意创建自定义选项使用了拓展，拓展只在proto3中可用。</p>
+<h1 id="生成访问类"><a href="#生成访问类" class="headerlink" title="生成访问类"></a>生成访问类</h1><p>可以通过定义好的.proto文件来生成Java,Python,C++, Ruby, JavaNano, Objective-C,或者C# 代码，需要基于.proto文件运行protocol buffer编译器protoc。如果你没有安装编译器，下载<a href="https://developers.google.com/protocol-buffers/docs/downloads?hl=zh-cn" target="_blank" rel="noopener">安装包</a>并遵照README安装。对于Go,你还需要安装一个特殊的代码生成器插件。你可以通过GitHub上的<a href="https://github.com/golang/protobuf/" target="_blank" rel="noopener">protobuf库</a>找到安装过程</p>
+<p>通过如下方式调用protocol编译器：</p>
+<pre><code>protoc --proto_path=IMPORT_PATH \
+             --cpp_out=DST_DIR \
+             --java_out=DST_DIR \
+             --python_out=DST_DIR \
+             --go_out=DST_DIR \
+             --ruby_out=DST_DIR \
+             --javanano_out=DST_DIR \
+             --objc_out=DST_DIR \
+             --csharp_out=DST_DIR \
+             path/to/file.proto
+</code></pre><ul>
+<li><code>IMPORT_PATH</code>声明了一个.proto文件所在的解析import具体目录。如果忽略该值，则使用当前目录。如果有多个目录则可以多次调用<code>--proto_path</code>，它们将会顺序的被访问并执行导入。<code>-I=IMPORT_PATH</code>是<code>--proto_path</code>的简化形式。</li>
+<li>当然也可以提供一个或多个输出路径：<ul>
+<li><code>--cpp_out</code> 在目标目录DST_DIR中产生C++代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/cpp-generated?hl=zh-cn" target="_blank" rel="noopener">C++代码生成参考</a>中查看更多。</li>
+<li><code>--java_out</code> 在目标目录DST_DIR中产生Java代码，可以在 <a href="https://developers.google.com/protocol-buffers/docs/reference/java-generated?hl=zh-cn" target="_blank" rel="noopener">Java代码生成参考</a>中查看更多。</li>
+<li><code>--python_out</code> 在目标目录 DST_DIR 中产生Python代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/python-generated?hl=zh-cn" target="_blank" rel="noopener">Python代码生成参考</a>中查看更多。</li>
+<li><code>--go_out</code> 在目标目录 DST_DIR 中产生Go代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/go-generated?hl=zh-cn" target="_blank" rel="noopener">GO代码生成参考</a>中查看更多。</li>
+<li><code>--ruby_out</code>在目标目录 DST_DIR 中产生Go代码，参考正在制作中。</li>
+<li><code>--javanano_out</code>在目标目录DST_DIR中生成JavaNano，JavaNano代码生成器有一系列的选项用于定制自定义生成器的输出：你可以通过生成器的<a href="https://github.com/google/protobuf/tree/master/javanano" target="_blank" rel="noopener">README</a>查找更多信息，JavaNano参考正在制作中。</li>
+<li><code>--objc_out</code>在目标目录DST_DIR中产生Object代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/objective-c-generated?hl=zh-cn" target="_blank" rel="noopener">Objective-C代码生成参考</a>中查看更多。</li>
+<li><code>--csharp_out</code>在目标目录DST_DIR中产生Object代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/csharp-generated?hl=zh-cn" target="_blank" rel="noopener">C#代码生成参考</a>中查看更多。</li>
+<li><code>--php_out</code>在目标目录DST_DIR中产生Object代码，可以在<a href="https://developers.google.com/protocol-buffers/docs/reference/php-generated?hl=zh-cn" target="_blank" rel="noopener">PHP代码生成参考</a>中查看更多。</li>
+</ul>
+</li>
+</ul>
+<p>作为一个方便的拓展，如果DST_DIR以.zip或者.jar结尾，编译器会将输出写到一个ZIP格式文件或者符合JAR标准的.jar文件中。注意如果输出已经存在则会被覆盖，编译器还没有智能到可以追加文件。<br>- 你必须提议一个或多个.proto文件作为输入，多个.proto文件可以只指定一次。虽然文件路径是相对于当前目录的，每个文件必须位于其IMPORT_PATH下，以便每个文件可以确定其规范的名称。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>Protobuf3 基础(不是翻译)</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-11-17, 17:02:47</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-17, 17:02:47</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/17/aboutProtobuf3/" title="Protobuf3 基础(不是翻译)">https://blog.walkbc.com/2019/11/17/aboutProtobuf3/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '1dce3299f52224bbde97',
+            clientSecret: 'f5974e3879415509e699b608ae048bcca53fb8f0',
+            repo: 'IrvinYoung.github.io',
+            owner: 'IrvinYoung',
+            admin: ['IrvinYoung'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2015-2019 dino</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)" target="_blank" rel="noopener"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#golang','#orm','#数据库','#database','#nginx','#php','#php-fpm','#linux','#ubuntu','#install','#openVPN','#文件格式','#xlsx','#protobuf','#语法','#基础','#markdown','#ssh','#remote','#script','#rust','#基础资料','#入门',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
