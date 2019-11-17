@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Rust入门参考资料 | Walk</title>
-  <meta name="keywords" content=" rust , 基础资料 , 入门 ">
-  <meta name="description" content="Rust入门参考资料 | Walk">
+  <title>Go语言环境中使用Protobuf3 | Walk</title>
+  <meta name="keywords" content=" golang , protobuf , protobuf3 ">
+  <meta name="description" content="Go语言环境中使用Protobuf3 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -403,9 +403,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-aboutRust" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-protobufWithGolang" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Rust入门参考资料</h1>
+        <h1 class="article-title">Go语言环境中使用Protobuf3</h1>
     
     <div class="article-meta">
         
@@ -413,25 +413,25 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="RUST noopener">RUST</a>
+                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color5">rust</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color5">基础资料</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">protobuf</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">入门</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">protobuf3</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-14 14:26:48'>2019-11-14 14:26</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-17 18:41:18'>2019-11-17 17:20</time>
         
     </div>
     <div class="article-meta">
@@ -464,7 +464,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装编译器：protoc"><span class="toc-text">安装编译器：protoc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装golang-for-protobuf插件：protoc-gen-go"><span class="toc-text">安装golang for protobuf插件：protoc-gen-go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protoc编译示例"><span class="toc-text">protoc编译示例</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -480,28 +480,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p><a href="https://www.rust-lang.org/zh-CN/" target="_blank" rel="noopener">Rust官方网站： https://www.rust-lang.org/zh-CN/</a></p>
-</li>
-<li><p><a href="https://this-week-in-rust.org/" target="_blank" rel="noopener">This Week in Rust： https://this-week-in-rust.org/</a></p>
-</li>
-<li><p><a href="https://doc.rust-lang.org/std/index.html" target="_blank" rel="noopener">Rust 标准库 API 文档： https://doc.rust-lang.org/std/index.html</a></p>
-</li>
-<li><p><a href="https://doc.rust-lang.org/stable/rust-by-example/" target="_blank" rel="noopener">Rust By Example： https://doc.rust-lang.org/stable/rust-by-example/</a></p>
-</li>
-<li><p><a href="https://cheats.rs/" target="_blank" rel="noopener">Rust 单页手册：https://cheats.rs/</a></p>
-</li>
-<li><p><a href="https://kaisery.github.io/trpl-zh-cn/foreword.html" target="_blank" rel="noopener">Rust 程序设计语言（网络中文翻译）：https://kaisery.github.io/trpl-zh-cn/foreword.html</a></p>
-</li>
-<li><p><a href="https://rust.cc/" target="_blank" rel="noopener">Rust 语言中文社区：https://rust.cc/</a></p>
-</li>
-<li><p><a href="https://rustforce.net/" target="_blank" rel="noopener">Rust Force：https://rustforce.net/</a></p>
-</li>
-<li><p><a href="https://github.com/rust-unofficial/awesome-rust" target="_blank" rel="noopener">awesome rust：https://github.com/rust-unofficial/awesome-rust</a></p>
-</li>
-<li><p><a href="https://crates.io/" target="_blank" rel="noopener">The Rust community’s crate registry：https://crates.io/</a></p>
-</li>
-</ol>
+        <h2 id="安装编译器：protoc"><a href="#安装编译器：protoc" class="headerlink" title="安装编译器：protoc"></a>安装编译器：protoc</h2><pre><code class="bash">brew install protobuf
+</code></pre>
+<h2 id="安装golang-for-protobuf插件：protoc-gen-go"><a href="#安装golang-for-protobuf插件：protoc-gen-go" class="headerlink" title="安装golang for protobuf插件：protoc-gen-go"></a>安装golang for protobuf插件：protoc-gen-go</h2><pre><code class="bash">go get -u -v github.com/golang/protobuf/proto
+go get -u -v github.com/golang/protobuf/protoc-gen-go
+
+# 也可以忽略上一步，直接安装protoc-gen-go，protoc和go会作为依赖被安装
+brew install protoc-gen-go
+</code></pre>
+<p><strong>说明：如果没有安装go环境，可以直接使用brew安装protoc-gen-go，同时go和protobuf会作为依赖一并被安装好！如果go环境是单独安装的，那最好还是通过go get的方式安装，可执行文件会被存放在$GOBIN下。</strong></p>
+<h2 id="protoc编译示例"><a href="#protoc编译示例" class="headerlink" title="protoc编译示例"></a>protoc编译示例</h2><pre><code class="protobuf">syntax = &quot;proto3&quot;;
+
+// 假设有如下proto文件
+package Demo;
+
+// 这里直接指定包名称，不使用默认包名：Demo
+option go_package = &quot;Project/Demo&quot;;
+
+enum Gender { 
+        UNKNOW = 0;
+        MALE = 1;
+        FEMALE = 2;
+}
+
+message Grade {
+  int32 id = 1;        //整形
+    string name = 2;    //字符串
+  Gender gender = 3;    //枚举类型
+    map&lt;string, float&gt; score = 4;    //map映射
+}
+</code></pre>
+<p>编译：</p>
+<pre><code class="bash">protoc --go_out=./ demo.proto
+#或
+protoc --go_out=./ -I=./ demo.proto
+#或
+protoc --go_out=./ -I=./ *.proto</code></pre>
+<p>结果：</p>
+<p><img src="/2019/11/17/protobufWithGolang/protoc_result.png" alt="protoc_result"></p>
+<p>可以发现：protoc已经按照我们指定的包设定，自动创建了响应的路径，并把编译号的go文件存储到路径下！</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -511,12 +528,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Rust入门参考资料</p>
+    <p><span class="copy-title">文章标题:</span>Go语言环境中使用Protobuf3</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-14, 14:26:48</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-14, 14:26:48</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/14/aboutRust/" title="Rust入门参考资料">https://blog.walkbc.com/2019/11/14/aboutRust/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-17, 17:20:49</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-17, 18:41:18</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/17/protobufWithGolang/" title="Go语言环境中使用Protobuf3">https://blog.walkbc.com/2019/11/17/protobufWithGolang/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
