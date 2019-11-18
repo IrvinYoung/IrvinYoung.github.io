@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-about/</loc>
+    
+    <lastmod>2019-11-18T14:20:08.194Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/11/17/protobufWithGolang/</loc>
+    
+    <lastmod>2019-11-18T08:08:49.690Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
     
     <lastmod>2019-11-18T07:46:45.656Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>https://blog.walkbc.com/2019/11/18/commonGoModuleReplace/</loc>
     
     <lastmod>2019-11-18T04:33:15.379Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.walkbc.com/2019/11/17/protobufWithGolang/</loc>
-    
-    <lastmod>2019-11-17T10:44:03.774Z</lastmod>
     
   </url>
   
