@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2019/11/08/PHPInstall/</loc>
+    
+    <lastmod>2019-11-18T15:33:07.049Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-about/</loc>
     
     <lastmod>2019-11-18T15:29:37.611Z</lastmod>
@@ -96,13 +103,6 @@
     <loc>https://blog.walkbc.com/2019/11/04/markdown/</loc>
     
     <lastmod>2019-11-08T12:49:46.002Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.walkbc.com/2019/11/08/PHPInstall/</loc>
-    
-    <lastmod>2019-11-08T12:48:02.211Z</lastmod>
     
   </url>
   
