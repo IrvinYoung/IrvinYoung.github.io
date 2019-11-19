@@ -6,13 +6,18 @@
   <meta name="keywords" content=" golang , 教程 , 安装 ">
   <meta name="description" content="Go开发环境安装 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="https:&#x2F;&#x2F;blog.walkbc.com&#x2F;about&#x2F;index.html">
+<meta name="description" content="HTTP方法类型根据 HTTP 标准，HTTP 请求可以使用多种请求方法。  HTTP1.0 定义了三种请求方法： GET, POST 和 HEAD方法。 HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。     方法 描述    GET 请求指定的页面信息，并返回实体主体。   HEAD 类似于 GET 请求，只不过返回">
+<meta name="keywords" content="golang,gin,教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gin教程(4)—HTTP方法处理">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.walkbc.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;gin-lesson-httpMothed&#x2F;index.html">
 <meta property="og:site_name" content="Walk">
+<meta property="og:description" content="HTTP方法类型根据 HTTP 标准，HTTP 请求可以使用多种请求方法。  HTTP1.0 定义了三种请求方法： GET, POST 和 HEAD方法。 HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。     方法 描述    GET 请求指定的页面信息，并返回实体主体。   HEAD 类似于 GET 请求，只不过返回">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-11-04T09:23:56.158Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog.walkbc.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;gin-lesson-httpMothed&#x2F;httpMethodDebug.png">
+<meta property="og:updated_time" content="2019-11-19T08:23:39.230Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog.walkbc.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;gin-lesson-httpMothed&#x2F;httpMethodDebug.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -151,14 +156,6 @@
     
         
             
-            <li><div data-rel="应用软件">应用软件<small>(4)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
             <li><div data-rel="GO第三方包">GO第三方包<small>(2)</small></div>
                 
             </li>
@@ -167,7 +164,7 @@
     
         
             
-            <li><div data-rel="RUST">RUST<small>(1)</small></div>
+            <li><div data-rel="应用软件">应用软件<small>(4)</small></div>
                 
             </li>
             
@@ -176,6 +173,14 @@
         
             
             <li><div data-rel="基础常识">基础常识<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="RUST">RUST<small>(1)</small></div>
                 
             </li>
             
@@ -242,6 +247,18 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color1">nginx</a>
     </li>
     
@@ -259,18 +276,6 @@
     
     <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color2">ubuntu</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">orm</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">数据库</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color4">database</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -302,18 +307,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color5">rust</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color5">基础资料</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" target="_blank" rel="noopener" class="color3">入门</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color4">protobuf</a>
     </li>
     
@@ -323,6 +316,18 @@
     
     <li class="article-tag-list-item">
         <a href="javascript:" target="_blank" rel="noopener" class="color3">基础</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">rust</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color5">基础资料</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" target="_blank" rel="noopener" class="color3">入门</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -355,20 +360,20 @@
     
     <nav id="title-list-nav">
         
-        <a  class="应用软件 "
-           href="/2019/11/11/FileUploadSetupOfNginxAndPhp/"
-           data-tag="nginx,php,php-fpm,linux,ubuntu"
-           data-author="" >
-            <span class="post-title" title="Nginx &amp; PHP-FPM环境下，文件上传部分的设置">Nginx &amp; PHP-FPM环境下，文件上传部分的设置</span>
-            <span class="post-date" title="2019-11-11 17:41:46">2019/11/11</span>
-        </a>
-        
         <a  class="GO第三方包 "
            href="/2019/11/11/GolangORM-gorm/"
            data-tag="golang,orm,数据库,database"
            data-author="" >
             <span class="post-title" title="Golang 数据库操作之grom">Golang 数据库操作之grom</span>
             <span class="post-date" title="2019-11-11 17:43:01">2019/11/11</span>
+        </a>
+        
+        <a  class="应用软件 "
+           href="/2019/11/11/FileUploadSetupOfNginxAndPhp/"
+           data-tag="nginx,php,php-fpm,linux,ubuntu"
+           data-author="" >
+            <span class="post-title" title="Nginx &amp; PHP-FPM环境下，文件上传部分的设置">Nginx &amp; PHP-FPM环境下，文件上传部分的设置</span>
+            <span class="post-date" title="2019-11-11 17:41:46">2019/11/11</span>
         </a>
         
         <a  class="GO第三方包 "
@@ -403,14 +408,6 @@
             <span class="post-date" title="2019-11-08 14:20:26">2019/11/08</span>
         </a>
         
-        <a  class="RUST "
-           href="/2019/11/14/aboutRust/"
-           data-tag="rust,基础资料,入门"
-           data-author="" >
-            <span class="post-title" title="Rust入门参考资料">Rust入门参考资料</span>
-            <span class="post-date" title="2019-11-14 14:26:48">2019/11/14</span>
-        </a>
-        
         <a  class="基础常识 "
            href="/2019/11/17/aboutProtobuf3/"
            data-tag="protobuf,语法,基础"
@@ -419,12 +416,12 @@
             <span class="post-date" title="2019-11-17 17:02:47">2019/11/17</span>
         </a>
         
-        <a  class="GO开发 框架 "
-           href="/2019/11/18/gRPC/"
-           data-tag="golang,protobuf,高性能,序列化,编解码"
+        <a  class="RUST "
+           href="/2019/11/14/aboutRust/"
+           data-tag="rust,基础资料,入门"
            data-author="" >
-            <span class="post-title" title="gRPC极速入门">gRPC极速入门</span>
-            <span class="post-date" title="2019-11-18 11:02:41">2019/11/18</span>
+            <span class="post-title" title="Rust入门参考资料">Rust入门参考资料</span>
+            <span class="post-date" title="2019-11-14 14:26:48">2019/11/14</span>
         </a>
         
         <a  class="GO开发 "
@@ -433,6 +430,14 @@
            data-author="" >
             <span class="post-title" title="常用的go module replace设置">常用的go module replace设置</span>
             <span class="post-date" title="2019-11-18 12:14:01">2019/11/18</span>
+        </a>
+        
+        <a  class="GO开发 框架 "
+           href="/2019/11/18/gRPC/"
+           data-tag="golang,protobuf,高性能,序列化,编解码"
+           data-author="" >
+            <span class="post-title" title="gRPC极速入门">gRPC极速入门</span>
+            <span class="post-date" title="2019-11-18 11:02:41">2019/11/18</span>
         </a>
         
         <a  class="GO开发 Gin教程 "
@@ -666,7 +671,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#golang','#gin','#教程','#nginx','#php','#php-fpm','#linux','#ubuntu','#orm','#数据库','#database','#文件格式','#xlsx','#install','#openVPN','#ssh','#remote','#script','#rust','#基础资料','#入门','#protobuf','#语法','#基础','#高性能','#序列化','#编解码','#安装','#markdown','#protobuf3',],
+            'data': ['#golang','#gin','#教程','#orm','#数据库','#database','#nginx','#php','#php-fpm','#linux','#ubuntu','#文件格式','#xlsx','#install','#openVPN','#ssh','#remote','#script','#protobuf','#语法','#基础','#rust','#基础资料','#入门','#高性能','#序列化','#编解码','#安装','#markdown','#protobuf3',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
