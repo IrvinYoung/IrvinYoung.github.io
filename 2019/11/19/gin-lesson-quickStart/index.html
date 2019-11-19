@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(2)—安装 | Walk</title>
+  <title>Gin教程(3)—最简示例 | Walk</title>
   <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(2)—安装 | Walk">
+  <meta name="description" content="Gin教程(3)—最简示例 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -491,9 +491,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-installation" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-gin-lesson-quickStart" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(2)—安装</h1>
+        <h1 class="article-title">Gin教程(3)—最简示例</h1>
     
     <div class="article-meta">
         
@@ -521,7 +521,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-18 22:55:26'>2019-11-18 22:55</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-19 11:30:55'>2019-11-19 11:30</time>
         
     </div>
     <div class="article-meta">
@@ -554,7 +554,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码示例"><span class="toc-text">代码示例</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -570,41 +570,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>说明：</strong></p>
-<ul>
-<li><p>这篇文章演示在go module环境下的安装，和官方说明不同！</p>
-</li>
-<li><p>go的版本为1.13.1</p>
-</li>
-</ul>
-<p><strong>安装：</strong></p>
-<pre><code class="bash">#创建项目目录
-mkdir ginInstallationDemo
-cd ginInstallationDemo
+        <h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><pre><code class="go">package main
 
-#初始化项目
-go mod init ginInstallationDemo
-#下载安装gin到项目目录
-go get -u github.com/gin-gonic/gin@latest
-
-#更新依赖关系
-go mod tidy
-#编辑go.mod,使用replace替换无法下载的包
-echo &#39;replace golang.org/x/net =&gt; github.com/golang/net latest&#39; &gt;&gt; go.mod
-</code></pre>
-<p>demo：</p>
-<pre><code class="go">package main
-
-import &quot;github.com/gin-gonic/gin&quot;
+import (
+    &quot;github.com/gin-gonic/gin&quot;
+    &quot;net/http&quot;
+)
 
 func main(){
-    r := gin.Default()
-    r.GET(&quot;/&quot;, func(c *gin.Context) {
-        c.String(200, &quot;gin running&quot;)
-    })
-    r.Run(&quot;:8080&quot;)
+    //创建web实例
+    webEng := gin.Default()
+
+    //创建一个默认的路由
+    webEng.GET(&quot;/&quot;, Home)
+
+    //启动web服务
+    webEng.Run() // listen and serve on 0.0.0.0:8080 (for windows &quot;localhost:8080&quot;)
+
+}
+
+//Home
+func Home(c *gin.Context){
+    c.String(http.StatusOK, &quot;gin running !&quot;)
 }
 </code></pre>
+<p>代码下载：<a href="https://github.com/IrvinYoung/gin-lessons" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -614,12 +604,12 @@ func main(){
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(2)—安装</p>
+    <p><span class="copy-title">文章标题:</span>Gin教程(3)—最简示例</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-18, 22:55:26</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-18, 22:55:26</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/18/gin-lesson-installation/" title="Gin教程(2)—安装">https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-19, 11:30:55</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-19, 11:30:55</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/19/gin-lesson-quickStart/" title="Gin教程(3)—最简示例">https://blog.walkbc.com/2019/11/19/gin-lesson-quickStart/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
