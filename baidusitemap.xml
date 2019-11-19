@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.walkbc.com/2019/11/19/gin-lesson-httpMothed/</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>https://blog.walkbc.com/2019/11/19/installGolang/</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
     <loc>https://blog.walkbc.com/2019/11/19/gin-lesson-quickStart/</loc>
     <lastmod>2019-11-19</lastmod>
   </url>  <url>
@@ -11,9 +20,6 @@
     <lastmod>2019-11-18</lastmod>
   </url>  <url>
     <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
-    <lastmod>2019-11-18</lastmod>
-  </url>  <url>
-    <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</loc>
     <lastmod>2019-11-18</lastmod>
   </url>  <url>
     <loc>https://blog.walkbc.com/2019/11/17/protobufWithGolang/</loc>

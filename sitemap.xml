@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2019/11/19/gin-lesson-httpMothed/</loc>
+    
+    <lastmod>2019-11-19T07:49:53.950Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/11/19/installGolang/</loc>
+    
+    <lastmod>2019-11-19T07:17:27.942Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</loc>
+    
+    <lastmod>2019-11-19T05:46:49.121Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/11/19/gin-lesson-quickStart/</loc>
     
     <lastmod>2019-11-19T03:30:55.510Z</lastmod>
@@ -26,13 +47,6 @@
     <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
     
     <lastmod>2019-11-18T15:16:23.865Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</loc>
-    
-    <lastmod>2019-11-18T14:55:26.650Z</lastmod>
     
   </url>
   
