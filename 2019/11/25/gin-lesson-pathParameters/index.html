@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>go module 快速上手 | Walk</title>
-  <meta name="keywords" content=" golang ">
-  <meta name="description" content="go module 快速上手 | Walk">
+  <title>Gin教程(5)—路由参数 | Walk</title>
+  <meta name="keywords" content=" golang , gin , 教程 ">
+  <meta name="description" content="Gin教程(5)—路由参数 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -531,9 +531,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-usingGoModule" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-gin-lesson-pathParameters" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">go module 快速上手</h1>
+        <h1 class="article-title">Gin教程(5)—路由参数</h1>
     
     <div class="article-meta">
         
@@ -541,7 +541,9 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>
+                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>/
+            
+                <a href="javascript:" target="_blank" data-rel="Gin教程 noopener">Gin教程</a>
             
         </span>
         
@@ -550,12 +552,16 @@
             
             <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
             
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">gin</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">教程</a>
+            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-19 18:45:44'>2019-11-18 14:29</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-25 14:57:21'>2019-11-25 14:54</time>
         
     </div>
     <div class="article-meta">
@@ -588,7 +594,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#go环境安装"><span class="toc-text">go环境安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础配置"><span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于replace"><span class="toc-text">关于replace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于goland-设置"><span class="toc-text">关于goland 设置</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是路由参数"><span class="toc-text">什么是路由参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例代码"><span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详解"><span class="toc-text">详解</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -604,68 +610,98 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong><em>说明：这篇文章不说问什么，只讲怎么做。</em></strong></p>
-<h2 id="go环境安装"><a href="#go环境安装" class="headerlink" title="go环境安装"></a>go环境安装</h2><p>请移步：<a href="https://blog.walkbc.com/2019/11/19/installGolang/">https://blog.walkbc.com/2019/11/19/installGolang/</a></p>
-<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><ol>
-<li><p>升级golang到1.13版本</p>
+        <h2 id="什么是路由参数"><a href="#什么是路由参数" class="headerlink" title="什么是路由参数"></a>什么是路由参数</h2><ul>
+<li><p>路由参数是请求URL中的路径组成部分。</p>
 </li>
-<li><p>设置GO111MODULE=on</p>
-<pre><code class="bash"> go env -w GO111MODULE=on
-</code></pre>
+<li><p>不包括Query部分，也就是 URL “?” 后边的内容。</p>
 </li>
-<li><p>设置GOPROXY</p>
-<pre><code class="bash"> go env -w GOPROXY=https://goproxy.cn,https://mirrors.aliyun.com/goproxy/,https://goproxy.io,https://athens.azurefd.net,direct
-</code></pre>
-<p> 说明：欢迎大家补充新的好用的代理；最后的direct不要省略。</p>
+<li><p>假设有如下的URL：<code>https://mhost.com/article/id/2159?version=adf87asdfnhadfa</code></p>
+<p>其中：/article/id/2159 是路由(请求PATH)，其中由“/”分割的每一部分都可以当作请求参数；</p>
+<p>其中：version=adf87asdfnhadfa 是请求的query，不是路由部分，在之后的query处理中会单独说明。</p>
 </li>
-</ol>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ol>
-<li><p>初始化项目</p>
-<pre><code class="bash"> cd projectName
- go mod projectName    //在项目目录下执行
-</code></pre>
-<p> 这个操作会生成go.mod 和go.sum文件。</p>
-<ul>
-<li>go.mod会记录当前的go和依赖的包的版本，就像是node的package.json文件，这个文件可以编辑。</li>
-<li>go.sum会记录依赖包的校验和，这个文件不需要编辑。</li>
 </ul>
-</li>
-<li><p>添加依赖包</p>
-<ol>
-<li><p>使用go get，但是要在包后添加版本号，格式如：</p>
-<ul>
-<li><code>go get -u packageName@latest</code></li>
-<li><code>go get packageNam@v1.23.1</code></li>
-</ul>
-</li>
-<li><p>直接在go.mod文件的require段下添加依赖包，如：</p>
-<pre><code class="bash">require (
-  github.com/golang/protobuf v1.3.2
-  golang.org/x/net v0.0.0-20190311183353-d8887717615a
-  google.golang.org/grpc v1.23.0
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code class="go">package main
+
+import (
+   &quot;github.com/gin-gonic/gin&quot;
+   &quot;net/http&quot;
 )
-//或者
-require google.golang.org/grpc v1.23.0</code></pre>
-<p>这种方式并不会下载依赖包，需要执行go mod download或者go mod tidy；执行go build和go run的时候也会下载依赖包。</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="关于replace"><a href="#关于replace" class="headerlink" title="关于replace"></a>关于replace</h2><p>背景：出于某些原因，我们在require中指定的依赖可能无法正常获取，比如：</p>
-<ol>
-<li>原则性的网络问题</li>
-<li>权限问题</li>
-<li>没有发布的本地包</li>
-<li>其他（欢迎补充）</li>
-</ol>
-<p>这个时候replace就能派上用场了：</p>
-<p>最简单的例子，假设需要使用：<code>golang.org/x/net</code>包，正常情况下是肯定不可能的，此时我们就需要用 replace 进行替代，格式如：</p>
-<pre><code class="bash">replace golang.org/x/net =&gt; github.com/golang/net v0.0.0-20191116160921-f9c825593386
+
+var(
+   webEng *gin.Engine
+)
+
+func main(){
+   webEng = gin.Default()
+
+   //处理 带必选参数的路由
+   webEng.GET(&quot;/article/:searchBy&quot;, NecessaryParams)
+   //处理 带可选参数的路由
+   webEng.GET(&quot;/article/:searchBy/*condition&quot;, OptionalParams)
+   //处理 其他没有定义的路由
+   webEng.NoRoute(Others)
+
+   webEng.Run(&quot;:8080&quot;)
+}
+
+/*
+   处理带可选参数的路由：
+   /article/id             no
+   /article/id/         yes
+   /article/id/2159      yes
+   /article/id/2159/other     yes
+*/
+func OptionalParams(c *gin.Context){
+   condition := c.Param(&quot;condition&quot;)
+   searchBy := c.Param(&quot;searchBy&quot;)
+   c.String(http.StatusOK, &quot;Optional=&gt; search article by %s = %s&quot;,searchBy,condition)
+}
+
+/*
+   处理带必选参数的路由：
+   /article      no
+   /article/     no
+   /article/id       yes
+   /article/id/   yes    (redirecting request 301: /article/id/ --&gt; /article/id)
+*/
+func NecessaryParams(c *gin.Context){
+   searchBy := c.Param(&quot;searchBy&quot;)
+   c.String(http.StatusOK, &quot;Necessary=&gt; search article by %s&quot;, searchBy)
+}
+
+// 处理其他没有定义的路由，自定义404
+func Others(c *gin.Context){
+   c.String(http.StatusNotFound, &quot;No handler for =&gt; %s&quot;, c.Request.RequestURI)
+}
 </code></pre>
-<p>在不确定替换包的版本时，可以指定为：latest。</p>
-<p>一些常见的replace可以参考：<a href="https://blog.walkbc.com/2019/11/18/commonGoModuleReplace/">常用的go module replace设置</a></p>
-<h2 id="关于goland-设置"><a href="#关于goland-设置" class="headerlink" title="关于goland 设置"></a>关于goland 设置</h2><p>我发现个goland的小问题：如果不在IDE中设置GOPROXY(即使go env已经设置)，那么语法高亮会失效。如图：</p>
-<p><img src="/2019/11/18/usingGoModule/goland.png" alt="goland"></p>
+<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><ol>
+<li><p>路径规则</p>
+<ul>
+<li>PATH可以包括三种形式：固定路径，必需通配参数“：”，和可选通配参数“*”。</li>
+<li>通配参数“*”，只能出现一次，并在PATH的最后。</li>
+<li>“*”之后的内容gin会全部解析为通配参数的内容。</li>
+<li><code>path</code>和<code>path/</code>是不同的，如果<code>path/</code>不存在，则会重定向到<code>path</code>。</li>
+<li>参数类型全部按照字符串解析。</li>
+</ul>
+</li>
+<li><p>路径示例</p>
+<pre><code>#合法定义
+/d1                
+/d2/:param1        
+/d3/:param1/:param2    
+/d4/:param1/:param2/    
+/d5/:param1/*param2    
+/d6/:param1/:param2/*param3
+#非法定义
+/d7/:param1/*param2/    
+/d8/:param1/*param2/param3    
+/d9/:param1/*param2/:param3    
+/d10/:param1/*param2/*param3    
+</code></pre></li>
+<li><p>其他路径</p>
+<p>没有定义的路径，gin默认会返回404状态码和简单的提示信息。我们可以使用：<code>*Engine.NoRoute()</code>指定一个自定义的404处理方法。</p>
+</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -675,12 +711,12 @@ require google.golang.org/grpc v1.23.0</code></pre>
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>go module 快速上手</p>
+    <p><span class="copy-title">文章标题:</span>Gin教程(5)—路由参数</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-18, 14:29:05</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-19, 18:45:44</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/18/usingGoModule/" title="go module 快速上手">https://blog.walkbc.com/2019/11/18/usingGoModule/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-25, 14:54:41</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-25, 14:57:21</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/25/gin-lesson-pathParameters/" title="Gin教程(5)—路由参数">https://blog.walkbc.com/2019/11/25/gin-lesson-pathParameters/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
