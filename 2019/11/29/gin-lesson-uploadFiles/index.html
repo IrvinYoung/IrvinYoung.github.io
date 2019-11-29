@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(5)—路由参数 | Walk</title>
+  <title>Gin教程(8)—文件上传 | Walk</title>
   <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(5)—路由参数 | Walk">
+  <meta name="description" content="Gin教程(8)—文件上传 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -555,9 +555,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-pathParameters" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-gin-lesson-uploadFiles" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(5)—路由参数</h1>
+        <h1 class="article-title">Gin教程(8)—文件上传</h1>
     
     <div class="article-meta">
         
@@ -585,12 +585,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-25 15:18:09'>2019-11-25 14:54</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-29 13:06:54'>2019-11-29 11:43</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:639</span>
+        <span>字数:404</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -620,7 +620,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是路由参数"><span class="toc-text">什么是路由参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例代码"><span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详解"><span class="toc-text">详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数的获取"><span class="toc-text">参数的获取</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单文件上传"><span class="toc-text">单文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多文件上传"><span class="toc-text">多文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需要注意的地方"><span class="toc-text">需要注意的地方</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -636,114 +636,82 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="什么是路由参数"><a href="#什么是路由参数" class="headerlink" title="什么是路由参数"></a>什么是路由参数</h2><ul>
-<li><p>路由参数是请求URL中的路径组成部分。</p>
-</li>
-<li><p>不包括Query部分，也就是 URL “?” 后边的内容。</p>
-</li>
-<li><p>假设有如下的URL：<code>https://mhost.com/article/id/2159?version=adf87asdfnhadfa</code></p>
-<p>其中：/article/id/2159 是路由(请求PATH)，其中由“/”分割的每一部分都可以当作请求参数；</p>
-<p>其中：version=adf87asdfnhadfa 是请求的query，不是路由部分，在之后的query处理中会单独说明。</p>
-</li>
-</ul>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code class="go">package main
-
-import (
-    &quot;github.com/gin-gonic/gin&quot;
-    &quot;log&quot;
-    &quot;net/http&quot;
-)
-
-var (
-    webEng *gin.Engine
-)
-
-func main() {
-    webEng = gin.Default()
-
-    //处理 带必选参数的路由
-    webEng.GET(&quot;/article/:searchBy&quot;, NecessaryParams)
-    //处理 带可选参数的路由
-    webEng.GET(&quot;/article/:searchBy/*condition&quot;, OptionalParams)
-    //处理 其他没有定义的路由
-    webEng.NoRoute(Others)
-
-    webEng.Run(&quot;:8080&quot;)
-}
-
-/*
-    处理带必选参数的路由：
-    /article        no
-    /article/        no
-    /article/id        yes
-    /article/id/    yes    (redirecting request 301: /article/id/ --&gt; /article/id)
-*/
-func NecessaryParams(c *gin.Context) {
-    searchBy := c.Param(&quot;searchBy&quot;)
-    c.String(http.StatusOK, &quot;Necessary=&gt; search article by %s&quot;, searchBy)
-}
-
-/*
-    处理带可选参数的路由：
-    /article/id                no
-    /article/id/            yes
-    /article/id/2159         yes
-    /article/id/2159/other     yes
-*/
-func OptionalParams(c *gin.Context) {
-    RangeParams(c.Params)
-
-    condition := c.Param(&quot;condition&quot;)
-    searchBy := c.Param(&quot;searchBy&quot;)
-    c.String(http.StatusOK, &quot;Optional=&gt; search article by %s = %s&quot;, searchBy, condition)
-}
-
-// 处理其他没有定义的路由，自定义404
-func Others(c *gin.Context) {
-    c.String(http.StatusNotFound, &quot;No handler for =&gt; %s&quot;, c.Request.RequestURI)
-}
-
-//Context.Params 是一个key-value结构的数组，自己可以单独处理
-func RangeParams(p gin.Params) {
-    for k, v := range p {
-        log.Printf(&quot;\t %d : %s = %s\n&quot;, k, v.Key, v.Value)
+        <h2 id="单文件上传"><a href="#单文件上传" class="headerlink" title="单文件上传"></a>单文件上传</h2><pre><code class="go">func HandleUpload(c *gin.Context) {
+    fAvatar, err := c.FormFile(&quot;avatar&quot;)
+    if err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
     }
-}
 
+    //todo: 检测文件大小
+    //if fAvatar.Size &gt; xxxx
+
+    //获取存储路径
+    name, err := localName(fAvatar.Header)
+    if err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
+    }
+    //保存
+    c.SaveUploadedFile(fAvatar, name)
+
+    c.String(http.StatusOK, &quot;upload avatar done&quot;)
+}
 </code></pre>
-<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><ol>
-<li><p>路径规则</p>
-<ul>
-<li>PATH可以包括三种形式：固定路径，必需通配参数“：”，和可选通配参数“*”。</li>
-<li>通配参数“*”，只能出现一次，并在PATH的最后。</li>
-<li>“*”之后的内容gin会全部解析为通配参数的内容。</li>
-<li><code>path</code>和<code>path/</code>是不同的，如果<code>path/</code>不存在，则会重定向到<code>path</code>。</li>
-<li>参数类型全部按照字符串解析。</li>
+<p><strong>说明</strong></p>
+<ol>
+<li>主要是两个函数的使用：<ul>
+<li>Context.FormFile()    获取文件对象</li>
+<li>Context.SaveUploadedFile() 将文件对象保存到本地</li>
 </ul>
 </li>
-<li><p>路径示例</p>
-<pre><code>#合法定义
-/d1                
-/d2/:param1        
-/d3/:param1/:param2    
-/d4/:param1/:param2/    
-/d5/:param1/*param2    
-/d6/:param1/:param2/*param3
-#非法定义
-/d7/:param1/*param2/    
-/d8/:param1/*param2/param3    
-/d9/:param1/*param2/:param3    
-/d10/:param1/*param2/*param3    
-</code></pre></li>
-<li><p>其他路径</p>
-<p>没有定义的路径，gin默认会返回404状态码和简单的提示信息。我们可以使用：<code>*Engine.NoRoute()</code>指定一个自定义的404处理方法。</p>
+<li>注意：需要重新指定文件名，用户上传的文件名不可信。</li>
+<li>如果不想存储在本地，那么可以参考Context.SaveUploadedFile() 函数，获取File interface{}，重写存储方法。</li>
+</ol>
+<h2 id="多文件上传"><a href="#多文件上传" class="headerlink" title="多文件上传"></a>多文件上传</h2><pre><code class="go">func HandleMultiple(c *gin.Context){
+    form, err := c.MultipartForm()
+    if err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
+    }
+    pics := form.File[&quot;pics&quot;]
+    for _, pic := range pics {
+        //todo: 检测文件大小
+        //if fAvatar.Size &gt; xxxx
+
+        //获取存储路径
+        name, err := localName(pic.Header)
+        if err != nil {
+            c.String(http.StatusBadRequest, err.Error())
+            return
+        }
+        //保存
+        c.SaveUploadedFile(pic, name)
+    }
+    c.String(http.StatusOK,&quot;done&quot;)
+}
+</code></pre>
+<p><strong>postman示例:</strong></p>
+<p><img src="/2019/11/29/gin-lesson-uploadFiles/result.png" alt></p>
+<p><strong>curl示例:</strong></p>
+<pre><code class="bash">curl -X POST \
+  http://127.0.0.1:8080/multiple \
+  -H &#39;content-type: multipart/form-data&#39; \
+  -F pics=@/Users/dino/Pictures/pics/_UjPlnYdSqU.jpg \
+  -F pics=@/Users/dino/Pictures/pics/_WY9BUmtyug.jpg \
+  -F pics=@/Users/dino/Pictures/pics/-3cTY-Q6k88.jpg
+</code></pre>
+<p><strong>说明</strong></p>
+<ol>
+<li>也是两个函数的使用：<ul>
+<li>Context.MultipartForm()    不同于单文件上传，这里获取文件对象的数组</li>
+<li>Context.SaveUploadedFile() 将文件对象保存到本地</li>
+</ul>
 </li>
+<li>其他和单文件上传相同</li>
 </ol>
-<h2 id="参数的获取"><a href="#参数的获取" class="headerlink" title="参数的获取"></a>参数的获取</h2><ol>
-<li>使用<code>Context.Param(key string)</code>方法，其中参数key是在路由规则中定义的通配参数名。</li>
-<li>读取<code>Context.Params</code>获取所有的key-value数组，按照自已意愿处理。</li>
-</ol>
-<p>代码下载：<a href="https://github.com/IrvinYoung/gin-lessons" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons</a></p>
+<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方"></a>需要注意的地方</h2><p>如果上传的文件比较大，那么需要注意设置router.MaxMultipartMemory的值，默认是32MB。这个值最好应该在gin实例启动时设置。</p>
+<p>完整代码：<a href="https://github.com/IrvinYoung/gin-lessons/tree/master/lesson8" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons/tree/master/lesson8</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -753,12 +721,12 @@ func RangeParams(p gin.Params) {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(5)—路由参数</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">639</span></p>
+    <p><span class="copy-title">文章标题:</span>Gin教程(8)—文件上传</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">404</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-25, 14:54:41</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-25, 15:18:09</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/25/gin-lesson-pathParameters/" title="Gin教程(5)—路由参数">https://blog.walkbc.com/2019/11/25/gin-lesson-pathParameters/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-29, 11:43:38</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-29, 13:06:54</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/29/gin-lesson-uploadFiles/" title="Gin教程(8)—文件上传">https://blog.walkbc.com/2019/11/29/gin-lesson-uploadFiles/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

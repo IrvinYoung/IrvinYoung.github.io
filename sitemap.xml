@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2019/11/29/gin-lesson-uploadFiles/</loc>
+    
+    <lastmod>2019-11-29T05:06:54.088Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/11/29/gin-lesson-formData/</loc>
     
     <lastmod>2019-11-29T03:38:26.871Z</lastmod>
