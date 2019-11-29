@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(2)—安装 | Walk</title>
+  <title>Gin教程(9)—路由组 | Walk</title>
   <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(2)—安装 | Walk">
+  <meta name="description" content="Gin教程(9)—路由组 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -563,9 +563,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-installation" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-gin-lesson-routersGroup" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(2)—安装</h1>
+        <h1 class="article-title">Gin教程(9)—路由组</h1>
     
     <div class="article-meta">
         
@@ -593,12 +593,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-19 13:46:49'>2019-11-18 22:55</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-29 15:04:43'>2019-11-29 14:22</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:212</span>
+        <span>字数:335</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -628,7 +628,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#示例代码"><span class="toc-text">示例代码</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -644,45 +644,81 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>说明：</strong></p>
-<ul>
-<li><p>这篇文章演示在go module环境下的安装，和官方说明不同！</p>
-</li>
-<li><p>go的版本为1.13.1</p>
-</li>
-</ul>
-<p><strong>安装：</strong></p>
-<pre><code class="bash">#创建项目目录
-mkdir ginInstallationDemo
-cd ginInstallationDemo
+        <h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code class="go">package main
 
-#初始化项目
-go mod init ginInstallationDemo
-#下载安装gin到项目目录
-go get -u github.com/gin-gonic/gin@latest
-#编辑go.mod,使用replace替换无法下载的包
-echo &#39;replace golang.org/x/net =&gt; github.com/golang/net latest&#39; &gt;&gt; go.mod
+import (
+    &quot;github.com/gin-gonic/gin&quot;
+    &quot;net/http&quot;
+)
 
-#下载依赖,download 命令会按照go.mod文件进行依赖包的下载
-go mod download    
+var (
+    webEng *gin.Engine
+)
 
-#更新依赖关系，tidy会将代码中没有使用的依赖包从go.mod文件中去除
-#所以在代码使用gin前，不要执行这个命令
-go mod tidy
-</code></pre>
-<p>demo：</p>
-<pre><code class="go">package main
+func main() {
+    webEng = gin.Default()
 
-import &quot;github.com/gin-gonic/gin&quot;
+    //account 路由组
+    account := webEng.Group(&quot;account&quot;)
+    {
+        //path为相对路径
+        account.POST(&quot;/login&quot;, Login)
+        //path可以不以&quot;/&quot;开始
+        account.POST(&quot;logout&quot;, Logout)
+        //path可以包含子路径
+        account.GET(&quot;profile/info&quot;, AccountInfo)
+    }
 
-func main(){
-    r := gin.Default()
-    r.GET(&quot;/&quot;, func(c *gin.Context) {
-        c.String(200, &quot;gin running&quot;)
-    })
-    r.Run(&quot;:8080&quot;)
+    //article路由组
+    article := webEng.Group(&quot;/article&quot;)
+    {
+        //嵌套路由组
+        //按照版本划分路由组
+        v1 := article.Group(&quot;v1&quot;)
+        //path同样支持路由参数
+        v1.GET(&quot;/:id&quot;, GetArticleById)
+
+        v2 := article.Group(&quot;v2&quot;)
+        v2.GET(&quot;/:tag&quot;,GetArticleByTag)
+    }
+    webEng.Run()
+}
+
+func Login(c *gin.Context) {
+    c.String(http.StatusOK, &quot;login&quot;)
+}
+
+func Logout(c *gin.Context) {
+    c.String(http.StatusOK, &quot;logout&quot;)
+}
+
+func AccountInfo(c *gin.Context) {
+    c.String(http.StatusOK, &quot;account info&quot;)
+}
+
+func GetArticleById(c *gin.Context){
+    id := c.Param(&quot;id&quot;)
+    c.String(http.StatusOK,&quot;content of article: %s&quot;,id)
+}
+
+func GetArticleByTag(c *gin.Context){
+    tag := c.Param(&quot;tag&quot;)
+    c.String(http.StatusOK,&quot;content of article: %s&quot;,tag)
 }
 </code></pre>
+<p><strong>说明</strong></p>
+<ol>
+<li>路由组这部分内容比较简单，没有过多可说的。<ul>
+<li>路由组可以嵌套</li>
+<li>子路由path可以有子路径</li>
+<li>支持路由参数</li>
+</ul>
+</li>
+<li>路由组的使用可以依据业务模块划分。</li>
+<li>API接口划分多版本，是一个路由组比较好的使用场景。</li>
+<li>可以给路由组设置中间件，同时生效于所有子路由。</li>
+</ol>
+<p>完整代码：<a href="https://github.com/IrvinYoung/gin-lessons/tree/master/lesson9" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons/tree/master/lesson9</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -692,12 +728,12 @@ func main(){
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(2)—安装</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">212</span></p>
+    <p><span class="copy-title">文章标题:</span>Gin教程(9)—路由组</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">335</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-18, 22:55:26</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-19, 13:46:49</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/18/gin-lesson-installation/" title="Gin教程(2)—安装">https://blog.walkbc.com/2019/11/18/gin-lesson-installation/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-29, 14:22:19</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-29, 15:04:43</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/29/gin-lesson-routersGroup/" title="Gin教程(9)—路由组">https://blog.walkbc.com/2019/11/29/gin-lesson-routersGroup/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
