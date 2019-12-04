@@ -4,6 +4,9 @@
     <loc>https://blog.walkbc.com/2019/12/02/viper/</loc>
     <lastmod>2019-12-04</lastmod>
   </url>  <url>
+    <loc>https://blog.walkbc.com/2019/11/18/commonGoModuleReplace/</loc>
+    <lastmod>2019-12-04</lastmod>
+  </url>  <url>
     <loc>https://blog.walkbc.com/2019/12/04/aboutEtcdVersion/</loc>
     <lastmod>2019-12-04</lastmod>
   </url>  <url>
@@ -59,9 +62,6 @@
     <lastmod>2019-11-18</lastmod>
   </url>  <url>
     <loc>https://blog.walkbc.com/2019/11/18/gRPC/</loc>
-    <lastmod>2019-11-18</lastmod>
-  </url>  <url>
-    <loc>https://blog.walkbc.com/2019/11/18/commonGoModuleReplace/</loc>
     <lastmod>2019-11-18</lastmod>
   </url>  <url>
     <loc>https://blog.walkbc.com/2019/11/17/aboutProtobuf3/</loc>
