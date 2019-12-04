@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2019/12/04/aboutEtcdVersion/</loc>
+    
+    <lastmod>2019-12-04T04:38:16.189Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/12/02/viper/</loc>
+    
+    <lastmod>2019-12-02T10:34:36.675Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/12/02/cobra/</loc>
+    
+    <lastmod>2019-12-02T10:34:30.984Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
     
     <lastmod>2019-12-02T07:58:51.792Z</lastmod>
