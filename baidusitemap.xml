@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.walkbc.com/2019/12/04/aboutEtcdVersion/</loc>
+    <loc>https://blog.walkbc.com/2019/12/02/viper/</loc>
     <lastmod>2019-12-04</lastmod>
   </url>  <url>
-    <loc>https://blog.walkbc.com/2019/12/02/viper/</loc>
-    <lastmod>2019-12-02</lastmod>
+    <loc>https://blog.walkbc.com/2019/12/04/aboutEtcdVersion/</loc>
+    <lastmod>2019-12-04</lastmod>
   </url>  <url>
     <loc>https://blog.walkbc.com/2019/12/02/cobra/</loc>
     <lastmod>2019-12-02</lastmod>
