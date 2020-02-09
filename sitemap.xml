@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2020/02/09/btc-public-api/</loc>
+    
+    <lastmod>2020-02-09T11:01:24.641Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
+    
+    <lastmod>2019-12-06T10:12:14.747Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2019/12/05/backupWebSiteByWget/</loc>
     
     <lastmod>2019-12-05T03:58:52.463Z</lastmod>
@@ -33,13 +47,6 @@
     <loc>https://blog.walkbc.com/2019/12/02/cobra/</loc>
     
     <lastmod>2019-12-02T10:34:30.984Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.walkbc.com/2019/11/18/usingGoModule/</loc>
-    
-    <lastmod>2019-12-02T07:58:51.792Z</lastmod>
     
   </url>
   
