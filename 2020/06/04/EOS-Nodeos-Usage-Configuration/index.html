@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Go开发环境安装 | Walk</title>
-  <meta name="keywords" content=" golang , 教程 , 安装 ">
-  <meta name="description" content="Go开发环境安装 | Walk">
+  <title>Nodeos 使用之configuration说明 | Walk</title>
+  <meta name="keywords" content=" EOS , blockchain , 区块链 , 使用 , 翻译 , configuration ">
+  <meta name="description" content="Nodeos 使用之configuration说明 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -719,9 +719,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-installGolang" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-EOS-Nodeos-Usage-Configuration" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Go开发环境安装</h1>
+        <h1 class="article-title">Nodeos 使用之configuration说明</h1>
     
     <div class="article-meta">
         
@@ -729,30 +729,36 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>
+                <a href="javascript:" target="_blank" data-rel="区块链 noopener">区块链</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">EOS</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">教程</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">blockchain</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">安装</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">区块链</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">使用</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">翻译</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">configuration</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-19 18:43:25'>2019-11-19 15:15</time>
+        创建时间:<time class="date" title='更新时间: 2020-06-04 17:31:56'>2020-06-04 17:28</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:680</span>
+        <span>字数:438</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -782,7 +788,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#macOS-Linxu-使用包管理器安装"><span class="toc-text">macOS / Linxu 使用包管理器安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用-go-module"><span class="toc-text">启用 go module</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -798,81 +804,65 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载页面：<a href="https://studygolang.com/dl" target="_blank" rel="noopener">https://studygolang.com/dl</a></p>
-<p><strong>说明：</strong></p>
-<ol>
-<li>一般选择页面顶部的推荐下载即可，默认为最新稳定版本。</li>
-<li>macOS和Linux推荐使用二进制包，windows推荐msi安装文件。</li>
-<li>不建议使用源码(除非动手能力强，自己想折腾)。</li>
-</ol>
-<pre><code class="bash">#macOS
-curl -OL &#39;https://studygolang.com/dl/golang/go1.13.4.darwin-amd64.tar.gz&#39;
-
-#linux
-wget &#39;https://studygolang.com/dl/golang/go1.13.4.linux-amd64.tar.gz&#39;
-
-#windows
-#浏览器，下载工具等
-</code></pre>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
-<li><p>macOS / Linux</p>
-<pre><code class="bash">#删除之前的版本
-rm -rf /usr/local/go
-#解压下载好的tar包到/usr/local/go路径,注意替换版本和系统
-tar xzf go.version.os-amd64.tar.gz -C /usr/local/</code></pre>
-<ol>
-<li>检查$GOPATH是否存在，如果不存在自行创建，并创建子目录：bin,src,pkg</li>
-<li>检查并设置环境变量：$GOROOT = /usr/local/go</li>
-<li>检查并设置环境变量：$GOPATH，可以指定自己喜欢的路径</li>
-<li>检查并设置环境变量：$GOBIN = $GOPATH/bin 也可以是其他路径</li>
-<li>在$PATH中添加：$GOROOT/bin 和 $PATH/bin 或者 $GOBIN</li>
-</ol>
-</li>
-<li><p>windows</p>
-<ol>
-<li><p>运行安装程序，指定安装路径，之后这个路径将作为GOROOT。</p>
-<p><img src="/2019/11/19/installGolang/goInstall-1.png" alt="goInstall-1"></p>
-</li>
-<li><p>在命令行下查看当前默认的go env，我们之后将会按照其中的内容，进行一些系统变量的设置。</p>
-<p><img src="/2019/11/19/installGolang/goInstall-2.png" alt="goInstall-2"></p>
-<p>注意其中的：GOPATH，GOROOT，GOBIN。可以看到：默认的GOROOT已经设置为go的安装路径，默认的GOPATH被设置为用户根(HOME)目录下的go文件夹。</p>
-</li>
-<li><p>打开 控制面板-&gt;系统和安全-&gt;系统-&gt;高级系统设置，选择“高级”选项卡，点击最下方的“环境变量”，如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-3.png" alt="goInstall-3"></p>
-<p>发现默认的用户变量中已经设置好了GOPATH，如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-4.png" alt="goInstall-4"></p>
-</li>
-<li><p>创建GOPATH目录：默认情况下，这个目录是不存在的，需要我们自行创建。同时需要在GOPATH下创建bin，src，pkg三个子目录。如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-5.png" alt="goInstall-5"></p>
-</li>
-<li><p>在用户变量中设置：</p>
+        <p><a href="https://developers.eos.io/manuals/eos/v2.0/nodeos/usage/nodeos-configuration" target="_blank" rel="noopener">英文版原文</a></p>
+<p>插件特定的选项可以使用CLI选项或配置文件进行配置，config.ini. Nodeos特定的选项只能从命令行配置。所有CLI选项和config.ini可以通过运行<code>nodeos --help</code>找到如上图所示。</p>
+<p>每个config.ini选项具有相应的CLI选项。但是，并非所有的CLI选项都在config.ini文件中可用。 例如，执行操作的大多数插件特定选项在<code>config.ini</code>中不可用，例如 <code>state_history_plugin</code> 插件的 <code>--delete state history</code> 。</p>
+<p>例如, CLI选项 <code>--plugin eosio::chain_api_plugin</code> 也可以通过在<code>config.ini</code>中添加<code>plugin = eosio::chain_api_plugin</code> 设置。</p>
+<p>##<code>config.ini</code> location</p>
+<p>默认的 <code>config.ini</code> 文件可以在以下路径下被找到:</p>
 <ul>
-<li>GOBIN ： %GOPATH%/bin</li>
-<li>GOROOT : C:\go   (也就是go的安装目录)</li>
-<li>在Path变量中添加 ： %GOROOT%/bin</li>
-<li>在Path变量中添加 ： %GOAPTH%/bin 或者 %GOBIN%</li>
+<li>Mac OS: <code>~/Library/Application Support/eosio/nodeos/config</code></li>
+<li>Linux: <code>~/.local/share/eosio/nodeos/config</code></li>
 </ul>
-<p>说明：这几个路径有好几种表示方法，但只要保证GOROOT/bin和GOPATH/bin在Path中就可以了。如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-6.png" alt="goInstall-6"></p>
+<p>自定义 <code>config.ini</code> 文件可以通过 <code>nodeos</code> option <code>--config path/to/config.ini</code> 进行设置.</p>
+<p>##Nodeos Example</p>
+<p>下面的示例显示了启动块生成节点时<code>nodeos</code>的典型用法：</p>
+<pre><code class="bash">nodeos --replay-blockchain \
+  -e -p eosio \
+  --plugin eosio::producer_plugin  \
+  --plugin eosio::chain_api_plugin \
+  --plugin eosio::http_plugin      \
+  &gt;&gt; nodeos.log 2&gt;&amp;1 &amp;</code></pre>
+<pre><code class="bash">nodeos \
+  -e -p eosio \
+  --data-dir /users/mydir/eosio/data     \
+  --config-dir /users/mydir/eosio/config \
+  --plugin eosio::producer_plugin      \
+  --plugin eosio::chain_plugin         \
+  --plugin eosio::http_plugin          \
+  --plugin eosio::state_history_plugin \
+  --contracts-console   \
+  --disable-replay-opts \
+  --access-control-allow-origin=&#39;*&#39; \
+  --http-validate-host=false        \
+  --verbose-http-errors             \
+  --state-history-dir /shpdata \
+  --trace-history              \
+  --chain-state-history        \
+  &gt;&gt; nodeos.log 2&gt;&amp;1 &amp;</code></pre>
+<p>上边 <code>nodeos</code> 命令启动了一个生产节点:</p>
+<ul>
+<li><p>启用块生产 (<code>-e</code>)</p>
 </li>
-<li><p>重新打开cmd命令行，查看环境变量设置是否正确。如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-7.png" alt="goInstall-7"></p>
+<li><p>将自己标识为块生产者 “eosio” (<code>-p</code>)</p>
 </li>
-<li><p>命令行中执行：go env 或者go.exe env 查看go环境是否和环境变量一致。如下图：</p>
-<p><img src="/2019/11/19/installGolang/goInstall-8.png" alt="goInstall-8"></p>
-<p>注意其中的：GOPATH，GOROOT，GOBIN。</p>
+<li><p>设置区块链数据目录 (<code>--data-dir</code>)</p>
 </li>
-</ol>
+<li><p>设置 <code>config.ini</code> 文件目录 (<code>--config-dir</code>)</p>
+</li>
+<li><p>加载插件 <code>producer_plugin</code>, <code>chain_plugin</code>, <code>http_plugin</code>, <code>state_history_plugin</code> (<code>--plugin</code>)</p>
+</li>
+<li><p>许可 <code>chain_plugin</code> 选项 (<code>--contracts-console</code>, <code>--disable-replay-opts</code>)</p>
+</li>
+<li><p>许可 <code>http-plugin</code> 选项 (<code>--access-control-allow-origin</code>, <code>--http-validate-host</code>, <code>--verbose-http-errors</code>)</p>
+</li>
+<li><p>许可 <code>state_history</code> 选项 (<code>--state-history-dir</code>, <code>--trace-history</code>, <code>--chain-state-history</code>)</p>
+</li>
+<li><p>重定向 <code>stdout</code> 和 <code>stderr</code> 到 <code>nodeos.log</code> 文件</p>
+</li>
+<li><p>在后台运行 (&amp;)</p>
 </li>
 </ul>
-<h2 id="macOS-Linxu-使用包管理器安装"><a href="#macOS-Linxu-使用包管理器安装" class="headerlink" title="macOS / Linxu 使用包管理器安装"></a>macOS / Linxu 使用包管理器安装</h2><ul>
-<li>macOS：brew install golang</li>
-<li>ubuntu: sudo apt install golang-go</li>
-<li>centOS: yum install golang</li>
-<li>其他待补充</li>
-</ul>
-<p>说明：通过这种方式安装go环境之后，一定要检查环境变量的设置。</p>
-<h2 id="启用-go-module"><a href="#启用-go-module" class="headerlink" title="启用 go module"></a>启用 go module</h2><p>请移步：<a href="https://blog.walkbc.com/2019/11/18/usingGoModule/">https://blog.walkbc.com/2019/11/18/usingGoModule/</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -882,12 +872,12 @@ tar xzf go.version.os-amd64.tar.gz -C /usr/local/</code></pre>
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Go开发环境安装</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">680</span></p>
+    <p><span class="copy-title">文章标题:</span>Nodeos 使用之configuration说明</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">438</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-19, 15:15:19</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-19, 18:43:25</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/19/installGolang/" title="Go开发环境安装">https://blog.walkbc.com/2019/11/19/installGolang/</a>
+    <p><span class="copy-title">发布时间:</span>2020-06-04, 17:28:49</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-04, 17:31:56</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/04/EOS-Nodeos-Usage-Configuration/" title="Nodeos 使用之configuration说明">https://blog.walkbc.com/2020/06/04/EOS-Nodeos-Usage-Configuration/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
