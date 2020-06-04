@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(8)—文件上传 | Walk</title>
-  <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(8)—文件上传 | Walk">
+  <title>Nodeos 使用之setup说明 | Walk</title>
+  <meta name="keywords" content=" EOS , blockchain , 区块链 , 使用 , 翻译 , setup ">
+  <meta name="description" content="Nodeos 使用之setup说明 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -731,9 +731,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-uploadFiles" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-EOS-Nodeos-Usage-Setups" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(8)—文件上传</h1>
+        <h1 class="article-title">Nodeos 使用之setup说明</h1>
     
     <div class="article-meta">
         
@@ -741,32 +741,36 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>/
-            
-                <a href="javascript:" target="_blank" data-rel="Gin教程 noopener">Gin教程</a>
+                <a href="javascript:" target="_blank" data-rel="区块链 noopener">区块链</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">EOS</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gin</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">blockchain</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">教程</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">区块链</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">使用</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">翻译</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">setup</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-29 13:06:54'>2019-11-29 11:43</time>
+        创建时间:<time class="date" title='更新时间: 2020-06-04 17:37:19'>2020-06-04 17:34</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:404</span>
+        <span>字数:963</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -796,7 +800,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单文件上传"><span class="toc-text">单文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多文件上传"><span class="toc-text">多文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需要注意的地方"><span class="toc-text">需要注意的地方</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Producing-Node-Setup"><span class="toc-text">Producing Node Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Non-producing-Node-Setup"><span class="toc-text">Non-producing Node Setup</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -812,82 +816,110 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="单文件上传"><a href="#单文件上传" class="headerlink" title="单文件上传"></a>单文件上传</h2><pre><code class="go">func HandleUpload(c *gin.Context) {
-    fAvatar, err := c.FormFile(&quot;avatar&quot;)
-    if err != nil {
-        c.String(http.StatusBadRequest, err.Error())
-        return
-    }
-
-    //todo: 检测文件大小
-    //if fAvatar.Size &gt; xxxx
-
-    //获取存储路径
-    name, err := localName(fAvatar.Header)
-    if err != nil {
-        c.String(http.StatusBadRequest, err.Error())
-        return
-    }
-    //保存
-    c.SaveUploadedFile(fAvatar, name)
-
-    c.String(http.StatusOK, &quot;upload avatar done&quot;)
-}
-</code></pre>
-<p><strong>说明</strong></p>
-<ol>
-<li>主要是两个函数的使用：<ul>
-<li>Context.FormFile()    获取文件对象</li>
-<li>Context.SaveUploadedFile() 将文件对象保存到本地</li>
+        <p><a href="https://developers.eos.io/manuals/eos/v2.0/nodeos/usage/node-setups/index" target="_blank" rel="noopener">英文版原文</a></p>
+<p><code>Nodeos</code> 一般有两种运行模式:</p>
+<ul>
+<li><p>Producing Node 生产节点</p>
+</li>
+<li><p>Non-Producing Node 飞生产节点</p>
+<p><code>Producing Nodes</code>用于块的生产。它们连接到P2P网络并主动生成新块。松散的事务也会被验证和转发。在主网上，如果分配的块生成器是活动调度的一部分，则<code>Producing Nodes</code>仅生成块。</p>
+<p><code>Non-Producing Nodes</code>连接到P2P网络，但不主动生成新块；它们可用于充当代理节点、中继API调用、验证事务、向其他节点广播信息等。<code>Non-Producing Nodes</code>也可用于监视区块链状态。</p>
+</li>
+</ul>
+<h2 id="Producing-Node-Setup"><a href="#Producing-Node-Setup" class="headerlink" title="Producing Node Setup"></a>Producing Node Setup</h2><ul>
+<li><p>Goal<br>   本节介绍如何在EOSIO网络中设置生产节点。生产节点，顾名思义，是配置为在基于EOSIO的区块链中生产区块的节点。通过producer_plugin和其他Nodeos插件提供此功能。</p>
+</li>
+<li><p>Before you begin</p>
+<ul>
+<li>首先安装EOS <a href="https://developers.eos.io/manuals/eos/latest/install/index" target="_blank" rel="noopener">Install the EOSIO software</a> .</li>
+<li>假设 <code>nodeos</code>, <code>cleos</code>, 和 <code>keosd</code> 都可以正常访问. 如果EOSIO是通过脚本构建的,确保运行安装脚本 <a href="https://developers.eos.io/manuals/eos/latest/install/build-from-source/shell-scripts/install-eosio-binaries" target="_blank" rel="noopener">Install Script</a>.</li>
+<li>明确如何通过 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/usage/nodeos-options" target="_blank" rel="noopener">Nodeos options</a> 选项启用/禁用功能.</li>
 </ul>
 </li>
-<li>注意：需要重新指定文件名，用户上传的文件名不可信。</li>
-<li>如果不想存储在本地，那么可以参考Context.SaveUploadedFile() 函数，获取File interface{}，重写存储方法。</li>
-</ol>
-<h2 id="多文件上传"><a href="#多文件上传" class="headerlink" title="多文件上传"></a>多文件上传</h2><pre><code class="go">func HandleMultiple(c *gin.Context){
-    form, err := c.MultipartForm()
-    if err != nil {
-        c.String(http.StatusBadRequest, err.Error())
-        return
-    }
-    pics := form.File[&quot;pics&quot;]
-    for _, pic := range pics {
-        //todo: 检测文件大小
-        //if fAvatar.Size &gt; xxxx
-
-        //获取存储路径
-        name, err := localName(pic.Header)
-        if err != nil {
-            c.String(http.StatusBadRequest, err.Error())
-            return
-        }
-        //保存
-        c.SaveUploadedFile(pic, name)
-    }
-    c.String(http.StatusOK,&quot;done&quot;)
-}
-</code></pre>
-<p><strong>postman示例:</strong></p>
-<p><img src="/2019/11/29/gin-lesson-uploadFiles/result.png" alt></p>
-<p><strong>curl示例:</strong></p>
-<pre><code class="bash">curl -X POST \
-  http://127.0.0.1:8080/multiple \
-  -H &#39;content-type: multipart/form-data&#39; \
-  -F pics=@/Users/dino/Pictures/pics/_UjPlnYdSqU.jpg \
-  -F pics=@/Users/dino/Pictures/pics/_WY9BUmtyug.jpg \
-  -F pics=@/Users/dino/Pictures/pics/-3cTY-Q6k88.jpg
-</code></pre>
-<p><strong>说明</strong></p>
+<li><p>Steps</p>
+<p>   请按照以下步骤设置生产节点：</p>
 <ol>
-<li>也是两个函数的使用：<ul>
-<li>Context.MultipartForm()    不同于单文件上传，这里获取文件对象的数组</li>
-<li>Context.SaveUploadedFile() 将文件对象保存到本地</li>
+<li><p>将您的帐户注册为生产商</p>
+<p>为了使您的帐户有资格成为生产商，您需要将帐户注册为生产商：</p>
+<pre><code class="bash">cleos system regproducer accountname1 EOS1234534... http://producer.site Antarctica</code></pre>
+</li>
+<li><p>设置生产者名称</p>
+<p>在config.ini中设置producer name选项到您的帐户，如下所示：</p>
+<pre><code class="ini"># config.ini:
+
+# ID of producer controlled by this node (e.g. inita; may specify multiple times) (eosio::producer_plugin)
+producer-name = youraccount</code></pre>
+</li>
+<li><p>设置生产者的 signature-provider</p>
+<p>你需要为你的生产者设置私钥。公钥应具有上述生产者帐户的权限。</p>
+<p><code>signature-provider</code>由一个3字段元组定义：</p>
+<ul>
+<li><p><code>public-key</code> - 字符串形式的有效EOSIO公钥。</p>
+</li>
+<li><p><code>provider-spec</code> - 字符串格式如下：</p>
+</li>
+<li><p><code>provider-type</code> - 密钥或KEOSD<br><strong>Using a Key:</strong></p>
+<pre><code class="ini"># config.ini:
+
+signature-provider = PUBLIC_SIGNING_KEY=KEY:PRIVATE_SIGNING_KEY
+
+//Example
+//signature-provider = EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV=KEY:5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3</code></pre>
+<p><strong>Using Keosd:</strong></p>
+<p>也可以使用<code>keosd</code>而不是硬定义键。</p>
+<pre><code class="ini"># config.ini:
+
+signature-provider = KEOSD:&lt;data&gt;   
+
+//Example
+//EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV=KEOSD:https://127.0.0.1:88888</code></pre>
+</li>
 </ul>
 </li>
-<li>其他和单文件上传相同</li>
+<li><p>定义 peers 列表</p>
+<pre><code class="ini"># config.ini:
+
+# Default p2p port is 9876
+p2p-peer-address = 123.255.78.9:9876
+</code></pre>
+</li>
+<li><p>加载所需的插件</p>
+<p>  在config.ini文件中，确认加载以下插件，或在必要时附加它们。</p>
+<pre><code class="ini"># config.ini:
+
+    plugin = eosio::chain_plugin
+    plugin = eosio::producer_plugin</code></pre>
+</li>
 </ol>
-<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方"></a>需要注意的地方</h2><p>如果上传的文件比较大，那么需要注意设置router.MaxMultipartMemory的值，默认是32MB。这个值最好应该在gin实例启动时设置。</p>
-<p>完整代码：<a href="https://github.com/IrvinYoung/gin-lessons/tree/master/lesson8" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons/tree/master/lesson8</a></p>
+</li>
+</ul>
+<h2 id="Non-producing-Node-Setup"><a href="#Non-producing-Node-Setup" class="headerlink" title="Non-producing Node Setup"></a>Non-producing Node Setup</h2><ul>
+<li><p>Goal</p>
+<p>这一节讲述，如何基于EOSIO网络配置一个非生产节点。非生产节点是未配置为生产块的节点，作为替代它与基于<code>EOSIO</code>的区块链中的其他对等点连接并同步，通过启用一个或多个 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/plugins/index" target="_blank" rel="noopener">Nodeos Plugins</a> 暴露公共和私有服务, 除了<code>producer_plugin</code>。</p>
+</li>
+<li><p>Before you begin</p>
+<ul>
+<li>开始本章节前 <a href="https://developers.eos.io/manuals/eos/latest/install/index" target="_blank" rel="noopener">安装 EOSIO</a> .</li>
+<li>假设 <code>nodeos</code>, <code>cleos</code>, 和 <code>keosd</code> 都可以正常访问. 如果EOSIO是通过脚本构建的,确保运行安装脚本 <a href="https://developers.eos.io/manuals/eos/latest/install/build-from-source/shell-scripts/install-eosio-binaries" target="_blank" rel="noopener">Install Script</a>.</li>
+<li>明确如何通过 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/usage/nodeos-options" target="_blank" rel="noopener">Nodeos options</a> 选项启用/禁用功能.</li>
+</ul>
+</li>
+<li><p>Steps</p>
+<ol>
+<li><p>Set Peers</p>
+<p>你需要在config.ini中设置一些peer节点，例如：</p>
+<pre><code class="ini"># config.ini:
+
+p2p-peer-address = 106.10.42.238:9876</code></pre>
+<p>或者，你可以在运行<code>nodeos</code>时将peer作为启动标志，如下所示：</p>
+<pre><code class="bash">nodeos ... --p2p-peer-address=106.10.42.238:9876</code></pre>
+</li>
+<li><p>Enable one or more available plugins</p>
+<p>每个可用的插件都在 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/plugins/index" target="_blank" rel="noopener">Nodeos Plugins</a> 部分列出并详细说明。当<code>nodeos</code>启动时，它将暴露所启用插件提供的功能。例如，如果在启用<code>state_history_plugin</code>的情况下启动<code>nodeos</code>，则会有一个提供完整区块链历史的非生产节点。如果在启用<code>http_plugin</code>的情况下启动<code>nodeos</code>，则会有一个非生产节点公开EOSIO RPC API。因此，可以通过在非生产节点上启用任意数量的现有插件来扩展该节点提供的基本功能。另一个需要考虑的方面是一些插件与其他插件有依赖关系。因此，您需要满足插件的所有依赖性才能启用它。</p>
+</li>
+</ol>
+</li>
+</ul>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -897,12 +929,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(8)—文件上传</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">404</span></p>
+    <p><span class="copy-title">文章标题:</span>Nodeos 使用之setup说明</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">963</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-29, 11:43:38</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-29, 13:06:54</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/29/gin-lesson-uploadFiles/" title="Gin教程(8)—文件上传">https://blog.walkbc.com/2019/11/29/gin-lesson-uploadFiles/</a>
+    <p><span class="copy-title">发布时间:</span>2020-06-04, 17:34:47</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-04, 17:37:19</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/04/EOS-Nodeos-Usage-Setups/" title="Nodeos 使用之setup说明">https://blog.walkbc.com/2020/06/04/EOS-Nodeos-Usage-Setups/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
