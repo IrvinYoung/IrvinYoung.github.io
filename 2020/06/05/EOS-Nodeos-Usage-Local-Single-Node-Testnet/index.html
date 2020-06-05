@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>cobra | Walk</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="cobra | Walk">
+  <title>Nodeos 使用之本地单节点测试网络 | Walk</title>
+  <meta name="keywords" content=" EOS , blockchain , 区块链 , configuration , 使用 , 翻译 ">
+  <meta name="description" content="Nodeos 使用之本地单节点测试网络 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -747,24 +747,46 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-cobra" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-EOS-Nodeos-Usage-Local-Single-Node-Testnet" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">cobra</h1>
+        <h1 class="article-title">Nodeos 使用之本地单节点测试网络</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            
+                <a href="javascript:" target="_blank" data-rel="区块链 noopener">区块链</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">EOS</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">blockchain</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">区块链</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">configuration</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">使用</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">翻译</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-02 18:34:30'>2019-12-02 18:34</time>
+        创建时间:<time class="date" title='更新时间: 2020-06-05 11:19:57'>2020-06-05 00:41</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:0</span>
+        <span>字数:962</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -810,7 +832,93 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p><a href="https://developers.eos.io/manuals/eos/v2.0/nodeos/usage/development-environment/local-single-node-testnet" target="_blank" rel="noopener">英文版原文</a></p>
+<p><strong>Goal</strong><br>本节介绍如何设置在单个主机上运行的单节点区块链配置。这称为单主机、单节点testnet。我们将在您的本地计算机上设置一个节点，并让它生成块。下图描述了所需的单主机testnet。</p>
+<p><img src="https://developers.eos.io/static/315123127612b3c9153341b9e7401d02/412e4/single-host-single-node-testnet.png" alt></p>
+<p><code>cleos</code>用于管理钱包、管理帐户和调用区块链上的操作。<code>keosd</code>执行钱包管理，包括数字签名。如果没有显式启动，<code>keosd</code>默认由<code>cleos</code>启动。</p>
+<p><strong>Before you begin</strong></p>
+<ul>
+<li>开始本章节前 <a href="https://developers.eos.io/manuals/eos/latest/install/index" target="_blank" rel="noopener">安装 EOSIO</a> .</li>
+<li>假设 <code>nodeos</code>, <code>cleos</code>, 和 <code>keosd</code> 都可以正常访问. 如果EOSIO是通过脚本构建的,确保运行安装脚本 <a href="https://developers.eos.io/manuals/eos/latest/install/build-from-source/shell-scripts/install-eosio-binaries" target="_blank" rel="noopener">Install Script</a>.</li>
+<li>明确如何通过 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/usage/nodeos-options" target="_blank" rel="noopener">Nodeos options</a> 选项启用/禁用功能.</li>
+</ul>
+<p><strong>Steps</strong></p>
+<p>打开终端窗口，执行一下命令：</p>
+<ol>
+<li><p>Start the Producer Node</p>
+<p>使用以下命令启动您自己的单节点区块链：</p>
+<pre><code class="bash">nodeos -e -p eosio --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin</code></pre>
+<blockquote>
+<p>Nodeos最小选项</p>
+<p>块生产的最小<code>nodeos</code>实例设置需要具有-e选项（启用过时生产）和-p eosio选项（生产者名称eosio）的<code>chain_api_plugin</code>和<code>history_api_plugin</code>。或者，您也可以设置并指定自己的帐户作为生产者名称。</p>
+</blockquote>
+<p>在运行<code>nodeos</code>之后，您应该得到如下所示的日志消息。这意味着这些块被成功地生产出来了。</p>
+<pre><code class="bash">1575001ms thread-0   chain_controller.cpp:235      _push_block          ] initm #1 @2017-09-04T04:26:15  | 0 trx, 0 pending, exectime_ms=0
+1575001ms thread-0   producer_plugin.cpp:207       block_production_loo ] initm generated block #1 @ 2017-09-04T04:26:15 with 0 trxs  0 pending
+1578001ms thread-0   chain_controller.cpp:235      _push_block          ] initc #2 @2017-09-04T04:26:18  | 0 trx, 0 pending, exectime_ms=0
+1578001ms thread-0   producer_plugin.cpp:207       block_production_loo ] initc generated block #2 @ 2017-09-04T04:26:18 with 0 trxs  0 pending
+...
+eosio generated block 046b9984... #101527 @ 2018-04-01T14:24:58.000 with 0 trxs
+eosio generated block 5e527ee2... #101528 @ 2018-04-01T14:24:58.500 with 0 trxs
+...</code></pre>
+<p>在这一点上，<code>nodeos</code>只和一个制作人<code>eosio</code>合作。</p>
+</li>
+<li><p>Get Node Info</p>
+<p>获取有关生成节点的信息：</p>
+<pre><code class="bash">cleos get info
+</code></pre>
+<p>这将生成类似于以下内容的输出：</p>
+<pre><code class="json">{
+  &quot;server_version&quot;: &quot;0f9df63e&quot;,
+  &quot;chain_id&quot;: &quot;cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f&quot;,
+  &quot;head_block_num&quot;: 134,
+  &quot;last_irreversible_block_num&quot;: 133,
+  &quot;last_irreversible_block_id&quot;: &quot;00000085060e9872849ef87bef3b19ab07de9faaed71154510c7f0aeeaddae2c&quot;,
+  &quot;head_block_id&quot;: &quot;000000861e3222dce1c7c2cfb938940d8aac22c816cc8b0b89f6bf65a8ad5bdc&quot;,
+  &quot;head_block_time&quot;: &quot;2019-11-18T22:13:10.500&quot;,
+  &quot;head_block_producer&quot;: &quot;eosio&quot;,
+  &quot;virtual_block_cpu_limit&quot;: 228396,
+  &quot;virtual_block_net_limit&quot;: 1197744,
+  &quot;block_cpu_limit&quot;: 199900,
+  &quot;block_net_limit&quot;: 1048576,
+  &quot;server_version_string&quot;: &quot;v2.0.0-rc2&quot;,
+  &quot;fork_db_head_block_num&quot;: 134,
+  &quot;fork_db_head_block_id&quot;: &quot;000000861e3222dce1c7c2cfb938940d8aac22c816cc8b0b89f6bf65a8ad5bdc&quot;,
+  &quot;server_full_version_string&quot;: &quot;v2.0.0-rc2-0f9df63e1eca4dda4cb7df30683f4a1220599444&quot;
+}
+</code></pre>
+</li>
+</ol>
+<p><strong>Advanced Steps</strong></p>
+<p>更高级的用户可能需要修改配置。<code>nodeos</code>使用自定义配置文件夹。此文件夹的位置由系统决定。</p>
+<ul>
+<li>Mac OS: <code>~/Library/Application\ Support/eosio/nodeos/config</code></li>
+<li>Linux: <code>~/.local/share/eosio/nodeos/config</code></li>
+</ul>
+<p>生成将使用默认的<code>genesis.json</code>文件。可以使用<code>nodeo</code>s的<code>--config-dir</code>命令行参数指定配置文件夹。如果使用此选项，则需要手动复制<code>genesis.json</code>文件到配置文件夹。</p>
+<p>为了正常运行<code>nodeos</code>需要一份正确配置的<code>config.ini</code>文件。启动时，<code>nodeos</code>在config文件夹中查找<code>config.ini</code>. 如果找不到，则创建默认<code>config.ini</code>文件。如果你还没有准备好的<code>config.ini</code>文件，运行nodeos，然后立即用Ctrl-C关闭它。默认配置(<code>config.ini</code>)将在配置文件夹中创建。编辑<code>config.ini</code>文件，将以下设置添加/更新为已存在的默认设置：</p>
+<pre><code class="ini"># config.ini:
+
+    # Enable production on a stale chain, since a single-node test chain is pretty much always stale
+    enable-stale-production = true
+    # Enable block production with the testnet producers
+    producer-name = eosio
+    # Load the block producer plugin, so you can produce blocks
+    plugin = eosio::producer_plugin
+    # As well as API and HTTP plugins
+    plugin = eosio::chain_api_plugin
+    plugin = eosio::http_plugin
+    plugin = eosio::history_api_plugin</code></pre>
+<p>现在应该可以运行<code>nodeos</code>并看到它开始生成块。</p>
+<pre><code class="bash">nodeos
+</code></pre>
+<p><code>nodeos</code>将运行时数据（例如，共享内存和日志内容）存储在自定义数据文件夹中。此文件夹的位置由系统决定。</p>
+<ul>
+<li>Mac OS: <code>~/Library/Application\ Support/eosio/nodeos/data</code></li>
+<li>Linux: <code>~/.local/share/eosio/nodeos/data</code></li>
+</ul>
+<p>可以使用<code>nodeos</code>的<code>--data-dir</code>命令行参数指定数据文件夹。</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
     </div>
@@ -819,12 +927,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>cobra</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">0</span></p>
+    <p><span class="copy-title">文章标题:</span>Nodeos 使用之本地单节点测试网络</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">962</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-02, 18:34:30</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-02, 18:34:30</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/02/cobra/" title="cobra">https://blog.walkbc.com/2019/12/02/cobra/</a>
+    <p><span class="copy-title">发布时间:</span>2020-06-05, 00:41:32</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-05, 11:19:57</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/05/EOS-Nodeos-Usage-Local-Single-Node-Testnet/" title="Nodeos 使用之本地单节点测试网络">https://blog.walkbc.com/2020/06/05/EOS-Nodeos-Usage-Local-Single-Node-Testnet/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

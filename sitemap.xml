@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.walkbc.com/2020/06/05/EOS-Nodeos-Usage-Local-Single-Node-Testnet/</loc>
+    
+    <lastmod>2020-06-05T03:19:57.325Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.walkbc.com/2020/06/05/EOS-Nodeos-Usage-Development-Environment/</loc>
     
     <lastmod>2020-06-04T16:38:08.902Z</lastmod>
