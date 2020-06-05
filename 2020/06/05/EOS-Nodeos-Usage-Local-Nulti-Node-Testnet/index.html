@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(1)—简介 | Walk</title>
-  <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(1)—简介 | Walk">
+  <title>Nodeos 使用之本地多节点测试网络 | Walk</title>
+  <meta name="keywords" content=" EOS , blockchain , 区块链 , development , 使用 , 翻译 ">
+  <meta name="description" content="Nodeos 使用之本地多节点测试网络 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -759,9 +759,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-about" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-EOS-Nodeos-Usage-Local-Nulti-Node-Testnet" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(1)—简介</h1>
+        <h1 class="article-title">Nodeos 使用之本地多节点测试网络</h1>
     
     <div class="article-meta">
         
@@ -769,32 +769,36 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>/
-            
-                <a href="javascript:" target="_blank" data-rel="Gin教程 noopener">Gin教程</a>
+                <a href="javascript:" target="_blank" data-rel="区块链 noopener">区块链</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">EOS</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gin</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">blockchain</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">教程</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">区块链</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color2">development</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">使用</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">翻译</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-18 23:29:37'>2019-11-18 22:20</time>
+        创建时间:<time class="date" title='更新时间: 2020-06-05 16:17:21'>2020-06-05 11:22</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:306</span>
+        <span>字数:2k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -824,7 +828,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#首先引用官方的说明："><span class="toc-text">首先引用官方的说明：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -840,22 +844,133 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="首先引用官方的说明："><a href="#首先引用官方的说明：" class="headerlink" title="首先引用官方的说明："></a>首先引用官方的说明：</h2><blockquote>
-<p>Gin is a HTTP web framework written in Go (Golang). It features a Martini-like API with much better performance – up to 40 times faster. If you need smashing performance, get yourself some Gin. <a href="https://gin-gonic.com/" target="_blank" rel="noopener">https://gin-gonic.com/</a></p>
+        <p><a href="https://developers.eos.io/manuals/eos/v2.0/nodeos/usage/development-environment/local-multi-node-testnet" target="_blank" rel="noopener">英文版原文</a></p>
+<p><strong>Goal</strong><br>本节介绍如何设置在单个主机上运行的多节点区块链配置。这称为 <strong><em>单主机、多节点testnet</em></strong>。我们将在您的本地计算机上设置两个节点，并让它们相互通信。本节中的示例依赖于三个命令行应用程序：<code>nodeos</code>、<code>keosd</code>和<code>cleos</code>。下图描述了所需的testnet配置。</p>
+<p><img src="https://developers.eos.io/static/2eb65c1a634627550700d448902a6f22/14e05/single-host-multi-node-testnet.png" alt></p>
+<p><strong>Before you begin</strong></p>
+<ul>
+<li>开始本章节前 <a href="https://developers.eos.io/manuals/eos/latest/install/index" target="_blank" rel="noopener">安装 EOSIO</a> .</li>
+<li>假设 <code>nodeos</code>, <code>cleos</code>, 和 <code>keosd</code> 都可以正常访问. 如果EOSIO是通过脚本构建的,确保运行安装脚本 <a href="https://developers.eos.io/manuals/eos/latest/install/build-from-source/shell-scripts/install-eosio-binaries" target="_blank" rel="noopener">Install Script</a>.</li>
+<li>明确如何通过 <a href="https://developers.eos.io/manuals/eos/latest/nodeos/usage/nodeos-options" target="_blank" rel="noopener">Nodeos options</a> 选项启用/禁用功能.</li>
+</ul>
+<p><strong>Steps</strong></p>
+<ol>
+<li><p>Start the Wallet Manager</p>
+<p>在第一个终端窗口中，启动钱包管理应用程序，<code>keosd</code>：</p>
+<pre><code class="bash">keosd --http-server-address 127.0.0.1:8899
+</code></pre>
+<p>如果成功，<code>keosd</code>将显示一些信息，如下：</p>
+<pre><code class="bash">2493323ms thread-0   wallet_plugin.cpp:39          plugin_initialize    ] initializing wallet plugin
+2493323ms thread-0   http_plugin.cpp:141           plugin_initialize    ] host: 127.0.0.1 port: 8899
+2493323ms thread-0   http_plugin.cpp:144           plugin_initialize    ] configured http to listen on 127.0.0.1:8899
+2493323ms thread-0   http_plugin.cpp:213           plugin_startup       ] start listening for http requests
+2493324ms thread-0   wallet_api_plugin.cpp:70      plugin_startup       ] starting wallet_api_plugin
+</code></pre>
+<p>第二行指出钱包在127.0.0.1:8899进行监听。这表明<code>keosd</code>已正确启动，并且正在正确的端口上侦听。如果在“启动wallet_api_plugin”之前看到任何其他信息，或者看到一些错误报告，则需要诊断该问题并重新启动。</p>
+<p>当<code>keosd</code>正常运行时，不要关闭当前窗口，然后移动到下一个终端窗口。</p>
+</li>
+<li><p>Create a Default Wallet</p>
+<p>在下一个终端窗口中，使用命令行实用程序<code>cleos</code>创建默认钱包。</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899  wallet create --to-console
+</code></pre>
+<p><code>cleos</code>将指出它创建了“默认”钱包，并为将来的钱包访问提供密码。如消息所述，请确保保留此密码以备之后使用。以下是此输出的示例：</p>
+<pre><code>Creating wallet: default
+Save password to use in the future to unlock this wallet.
+Without password imported keys will not be retrievable.
+&quot;PW5JsmfYz2wrdUEotTzBamUCAunAA8TeRZGT57Ce6PkvM12tre8Sm&quot;</code></pre><p><code>keosd</code>将在其窗口中生成一些状态输出。我们将继续使用第二个窗口执行后续的<code>cleos</code>命令。</p>
+</li>
+<li><p>Loading the EOSIO Key</p>
+<p>在上述步骤中启动的私有区块链是使用默认的初始密钥创建的，该密钥必须加载到钱包中。</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899 wallet import --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+</code></pre>
+<pre><code class="console">imported private key for: EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+</code></pre>
+</li>
+<li><p>Start the First Producer Node</p>
+<p>我们现在可以启动第一个生产者节点。在第三个终端窗口中运行：</p>
+<pre><code class="bash">nodeos --enable-stale-production --producer-name eosio --plugin eosio::chain_api_plugin --plugin eosio::net_api_plugin
+</code></pre>
+<p>这将创建一个特殊的生产者，称为“bios”生产者。假设到目前为止一切都已正确执行，您应该会看到<code>nodeos</code>进程报告块创建的输出。</p>
+</li>
+<li><p>Start the Second Producer Node</p>
+<p>以下命令假设您是从运行本教程的<code>eos\build</code>目录运行本教程的<code>./eosio_build.sh</code>版本以构建EOSIO二进制文件。</p>
+<p>若要启动其他节点，必须首先加载<code>eosio.bios</code>合约。此合约使您能够直接控制其他帐户的资源分配，并访问其他特权API调用。返回到第二个终端窗口并运行以下命令以加载合约：</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899 set contract eosio build/contracts/eosio.bios
+</code></pre>
+<p>我们将创建一个帐户成为生产者，使用帐户名<code>inita</code>。要创建帐户，我们需要生成与帐户关联的密钥，并将这些密钥导入我们的钱包。</p>
+<p>运行create key命令：</p>
+<pre><code class="bash">cleos create key
+</code></pre>
+<blockquote>
+<p>注意<br>下面的命令行指令使用下面显示的私钥/公钥。为了能够直接剪切和粘贴本教程中的命令行指令，请使用这些key，而不是从<code>cleos create key</code>命令生成的key。如果仍要使用新生成的key，则需要在随后的命令中将key值替换为你自己的key值。</p>
 </blockquote>
-<p>Gin是比较轻量化的，说是web框架，但其实只能算是一个web模块。除了路由策略和中间件这两个核心之外，其他的功能要么是golang标准库的，要么就是第三方的；出了一个叫<a href="https://github.com/gin-gonic/contrib" target="_blank" rel="noopener">contrib</a>的中间件合集，也只是搜集了一些社区项目；说到业务层面的功能那就更没有了！</p>
-<p>gin适合做什么：</p>
-<ol>
-<li>一个系统的web模块，比如嵌入式系统的web管理功能，比如软件的web管理界面等。</li>
-<li>web网关，发挥gin在路由上的高性能，做请求分发。</li>
-<li>前后端分离的项目中，承担API server的部分。</li>
+<p>这将报告新生成的公钥和私钥对，它们看起来类似于以下内容。</p>
+<pre><code class="console">Private key: 5JgbL2ZnoEAhTudReWH1RnMuQS6DBeLZt4ucV6t8aymVEuYg7sr
+Public key: EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg
+</code></pre>
+<p>现在将私钥部分导入您的钱包。如果成功，将报告匹配的公钥。这应该与先前生成的公钥匹配：</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899 wallet import 5JgbL2ZnoEAhTudReWH1RnMuQS6DBeLZt4ucV6t8aymVEuYg7sr
+</code></pre>
+<pre><code class="console">imported private key for: EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg
+</code></pre>
+<p>创建我们将用来成为生产商的<code>inita</code>帐户。<code>create account</code>命令需要两个公钥，一个用于帐户的所有者密钥，另一个用于帐户的活动密钥。在本例中，新创建的公钥将作为所有者密钥和活动密钥使用两次。create命令的输出示例如下：</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899 create account eosio inita EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg
+</code></pre>
+<pre><code class="console">executed transaction: d1ea511977803d2d88f46deb554f5b6cce355b9cc3174bec0da45fc16fe9d5f3  352 bytes  102400 cycles
+#         eosio &lt;= eosio::newaccount            {&quot;creator&quot;:&quot;eosio&quot;,&quot;name&quot;:&quot;inita&quot;,&quot;owner&quot;:{&quot;threshold&quot;:1,&quot;keys&quot;:[{&quot;key&quot;:&quot;EOS6hMjoWRF2L8x9YpeqtUEcsDK...</code></pre>
+<p>我们现在有一个帐户，可以为它分配一个合约，使它能够做有意义的工作。在其他教程中，该帐户已用于建立简单的合约。在这种情况下，帐户将被指定为块生成器。</p>
+<p>在第四个终端窗口中，启动第二个<code>nodeos</code>实例。注意，这个命令行比我们在上面创建第一个生产者时使用的命令行要长得多。这是避免与第一个<code>nodeos</code>实例冲突所必需的。幸运的是，您可以剪切并粘贴此命令行并调整关键点：</p>
+<pre><code class="bash">nodeos --producer-name inita --plugin eosio::chain_api_plugin --plugin eosio::net_api_plugin --http-server-address 127.0.0.1:8889 --p2p-listen-endpoint 127.0.0.1:9877 --p2p-peer-address 127.0.0.1:9876 --config-dir node2 --data-dir node2 --private-key [\&quot;EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg\&quot;,\&quot;5JgbL2ZnoEAhTudReWH1RnMuQS6DBeLZt4ucV6t8aymVEuYg7sr\&quot;]
+</code></pre>
+<p>这个新节点的输出将显示一个小活动，但将停止报告，直到本教程的最后一步，当<code>inita</code>帐户注册为producer帐户并被激活。下面是一个新启动节点的输出示例。您的输出可能看起来有点不同，这取决于您输入这些命令所花费的时间。此外，本例仅是最后几行输出：</p>
+<pre><code class="console">2393147ms thread-0   producer_plugin.cpp:176       plugin_startup       ] producer plugin:  plugin_startup() end
+2393157ms thread-0   net_plugin.cpp:1271           start_sync           ] Catching up with chain, our last req is 0, theirs is 8249 peer dhcp15.ociweb.com:9876 - 295f5fd
+2393158ms thread-0   chain_controller.cpp:1402     validate_block_heade ] head_block_time 2018-03-01T12:00:00.000, next_block 2018-04-05T22:31:08.500, block_interval 500
+2393158ms thread-0   chain_controller.cpp:1404     validate_block_heade ] Did not produce block within block_interval 500ms, took 3061868500ms)
+2393512ms thread-0   producer_plugin.cpp:241       block_production_loo ] Not producing block because production is disabled until we receive a recent block (see: --enable-stale-production)
+2395680ms thread-0   net_plugin.cpp:1385           recv_notice          ] sync_manager got last irreversible block notice
+2395680ms thread-0   net_plugin.cpp:1271           start_sync           ] Catching up with chain, our last req is 8248, theirs is 8255 peer dhcp15.ociweb.com:9876 - 295f5fd
+2396002ms thread-0   producer_plugin.cpp:226       block_production_loo ] Previous result occurred 5 times
+2396002ms thread-0   producer_plugin.cpp:244       block_production_loo ] Not producing block because it isn&#39;t my turn, its eosio
+</code></pre>
+<p>此时，第二个节点是一个空闲的生产者。要将其转换为活动生产者，<code>inita</code>需要注册为bios节点的生产者，bios节点需要执行更新生产者计划的操作。</p>
+<pre><code class="bash">cleos --wallet-url http://127.0.0.1:8899 push action eosio setprods &quot;{ \&quot;schedule\&quot;: [{\&quot;producer_name\&quot;: \&quot;inita\&quot;,\&quot;block_signing_key\&quot;: \&quot;EOS6hMjoWRF2L8x9YpeqtUEcsDKAyxSuM1APicxgRU1E3oyV5sDEg\&quot;}]}&quot; -p eosio@active
+</code></pre>
+<pre><code class="console">executed transaction: 2cff4d96814752aefaf9908a7650e867dab74af02253ae7d34672abb9c58235a  272 bytes  105472 cycles
+#         eosio &lt;= eosio::setprods              {&quot;version&quot;:1,&quot;producers&quot;:[{&quot;producer_name&quot;:&quot;inita&quot;,&quot;block_signing_key&quot;:&quot;EOS6hMjoWRF2L8x9YpeqtUEcsDKA...
+</code></pre>
+<p>恭喜，您现在已经配置了一个双节点testnet！您可以看到原始节点不再生成块，而是正在接收它们。您可以通过对每个节点运行<code>get info</code>指令来验证这一点。</p>
+</li>
+<li><p>Get Nodes Info</p>
+<p>获取第一个节点的信息：</p>
+<pre><code class="bash">cleos get info
+</code></pre>
+<p>这将生成类似于以下内容的输出：</p>
+<pre><code class="json">{
+  &quot;server_version&quot;: &quot;223565e8&quot;,
+  &quot;head_block_num&quot;: 11412,
+  &quot;last_irreversible_block_num&quot;: 11411,
+  &quot;head_block_id&quot;: &quot;00002c94daf7dff456cd940bd585c4d9b38e520e356d295d3531144329c8b6c3&quot;,
+  &quot;head_block_time&quot;: &quot;2018-04-06T00:06:14&quot;,
+  &quot;head_block_producer&quot;: &quot;inita&quot;
+}
+</code></pre>
+<p>现在对于第二个节点：</p>
+<pre><code class="bash">cleos --url http://127.0.0.1:8889 get info
+</code></pre>
+<p>这将生成类似于以下内容的输出：</p>
+<pre><code class="json">{
+  &quot;server_version&quot;: &quot;223565e8&quot;,
+  &quot;head_block_num&quot;: 11438,
+  &quot;last_irreversible_block_num&quot;: 11437,
+  &quot;head_block_id&quot;: &quot;00002cae32697444fa9a2964e4db85b5e8fd4c8b51529a0c13e38587c1bf3c6f&quot;,
+  &quot;head_block_time&quot;: &quot;2018-04-06T00:06:27&quot;,
+  &quot;head_block_producer&quot;: &quot;inita&quot;
+}
+</code></pre>
+<p>在后面的教程中，我们将探讨如何使用更高级的工具来运行多主机、多节点的testnet。</p>
+</li>
 </ol>
-<p>gin不适合做什么：</p>
-<ol>
-<li>基于MVC的web项目，虽然gin也能胜任(需要有比较强的代码组织能力)，但是有更适合的选择。</li>
-<li>其他，有待补充！</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单强大，用起来比较犀利；但如果是拿来做“大事情”，还得看开发者自身的驾驭能力！😄</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com </span>
@@ -865,12 +980,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(1)—简介</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">306</span></p>
+    <p><span class="copy-title">文章标题:</span>Nodeos 使用之本地多节点测试网络</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">2k</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-18, 22:20:08</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-18, 23:29:37</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/18/gin-lesson-about/" title="Gin教程(1)—简介">https://blog.walkbc.com/2019/11/18/gin-lesson-about/</a>
+    <p><span class="copy-title">发布时间:</span>2020-06-05, 11:22:32</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-05, 16:17:21</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/05/EOS-Nodeos-Usage-Local-Nulti-Node-Testnet/" title="Nodeos 使用之本地多节点测试网络">https://blog.walkbc.com/2020/06/05/EOS-Nodeos-Usage-Local-Nulti-Node-Testnet/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
