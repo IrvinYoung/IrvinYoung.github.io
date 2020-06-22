@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Gin教程(5)—路由参数 | Walk</title>
-  <meta name="keywords" content=" golang , gin , 教程 ">
-  <meta name="description" content="Gin教程(5)—路由参数 | Walk">
+  <title>Nodeos 使用之最佳实践 | Walk</title>
+  <meta name="keywords" content=" EOS , blockchain , 区块链 , 使用 , 翻译 , implementation ">
+  <meta name="description" content="Nodeos 使用之最佳实践 | Walk">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -771,9 +771,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gin-lesson-pathParameters" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-EOS-Nodeos-Usage-Implementation" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Gin教程(5)—路由参数</h1>
+        <h1 class="article-title">Nodeos 使用之最佳实践</h1>
     
     <div class="article-meta">
         
@@ -781,32 +781,36 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="GO开发 noopener">GO开发</a>/
-            
-                <a href="javascript:" target="_blank" data-rel="Gin教程 noopener">Gin教程</a>
+                <a href="javascript:" target="_blank" data-rel="区块链 noopener">区块链</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">golang</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">EOS</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gin</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color1">blockchain</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">教程</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">区块链</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">使用</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">翻译</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">implementation</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-11-25 15:18:09'>2019-11-25 14:54</time>
+        创建时间:<time class="date" title='更新时间: 2020-06-07 17:06:30'>2020-06-06 00:28</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:639</span>
+        <span>字数:876</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -836,7 +840,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是路由参数"><span class="toc-text">什么是路由参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例代码"><span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详解"><span class="toc-text">详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数的获取"><span class="toc-text">参数的获取</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Blockchain-State-and-Storage"><span class="toc-text">Blockchain State and Storage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EOSIO-Interfaces"><span class="toc-text">EOSIO Interfaces</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nodeos-RPC-API"><span class="toc-text">Nodeos RPC API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nodeos-Read-Modes"><span class="toc-text">Nodeos Read Modes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Speculative-Mode"><span class="toc-text">Speculative Mode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Head-Mode"><span class="toc-text">Head Mode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-Only-Mode"><span class="toc-text">Read-Only Mode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Irreversible-Mode"><span class="toc-text">Irreversible Mode</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-To-Specify-the-Read-Mode"><span class="toc-text">How To Specify the Read Mode</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -852,115 +856,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="什么是路由参数"><a href="#什么是路由参数" class="headerlink" title="什么是路由参数"></a>什么是路由参数</h2><ul>
-<li><p>路由参数是请求URL中的路径组成部分。</p>
-</li>
-<li><p>不包括Query部分，也就是 URL “?” 后边的内容。</p>
-</li>
-<li><p>假设有如下的URL：<code>https://mhost.com/article/id/2159?version=adf87asdfnhadfa</code></p>
-<p>其中：/article/id/2159 是路由(请求PATH)，其中由“/”分割的每一部分都可以当作请求参数；</p>
-<p>其中：version=adf87asdfnhadfa 是请求的query，不是路由部分，在之后的query处理中会单独说明。</p>
-</li>
-</ul>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code class="go">package main
-
-import (
-    &quot;github.com/gin-gonic/gin&quot;
-    &quot;log&quot;
-    &quot;net/http&quot;
-)
-
-var (
-    webEng *gin.Engine
-)
-
-func main() {
-    webEng = gin.Default()
-
-    //处理 带必选参数的路由
-    webEng.GET(&quot;/article/:searchBy&quot;, NecessaryParams)
-    //处理 带可选参数的路由
-    webEng.GET(&quot;/article/:searchBy/*condition&quot;, OptionalParams)
-    //处理 其他没有定义的路由
-    webEng.NoRoute(Others)
-
-    webEng.Run(&quot;:8080&quot;)
-}
-
-/*
-    处理带必选参数的路由：
-    /article        no
-    /article/        no
-    /article/id        yes
-    /article/id/    yes    (redirecting request 301: /article/id/ --&gt; /article/id)
-*/
-func NecessaryParams(c *gin.Context) {
-    searchBy := c.Param(&quot;searchBy&quot;)
-    c.String(http.StatusOK, &quot;Necessary=&gt; search article by %s&quot;, searchBy)
-}
-
-/*
-    处理带可选参数的路由：
-    /article/id                no
-    /article/id/            yes
-    /article/id/2159         yes
-    /article/id/2159/other     yes
-*/
-func OptionalParams(c *gin.Context) {
-    RangeParams(c.Params)
-
-    condition := c.Param(&quot;condition&quot;)
-    searchBy := c.Param(&quot;searchBy&quot;)
-    c.String(http.StatusOK, &quot;Optional=&gt; search article by %s = %s&quot;, searchBy, condition)
-}
-
-// 处理其他没有定义的路由，自定义404
-func Others(c *gin.Context) {
-    c.String(http.StatusNotFound, &quot;No handler for =&gt; %s&quot;, c.Request.RequestURI)
-}
-
-//Context.Params 是一个key-value结构的数组，自己可以单独处理
-func RangeParams(p gin.Params) {
-    for k, v := range p {
-        log.Printf(&quot;\t %d : %s = %s\n&quot;, k, v.Key, v.Value)
-    }
-}
-
-</code></pre>
-<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><ol>
-<li><p>路径规则</p>
+        <p><a href="https://developers.eos.io/manuals/eos/v2.0/nodeos/usage/nodeos-implementation" target="_blank" rel="noopener">英文版原文</a></p>
+<p>EOSIO平台在事务生命周期的不同阶段以不同的数据结构存储区块链信息。其中一些描述如下。生产节点是当前正在为区块链创建块的块生产者运行的<code>nodeos</code>实例（每6秒更改一次，在切换到另一个生产者之前按顺序生成12个块）</p>
+<h2 id="Blockchain-State-and-Storage"><a href="#Blockchain-State-and-Storage" class="headerlink" title="Blockchain State and Storage"></a>Blockchain State and Storage</h2><p>每个<code>nodeos</code>实例都创建一些内部文件来保存区块链状态。这些文件位于<code>~/eosio/nodeos/data</code>安装目录中，其用途如下所述：</p>
 <ul>
-<li>PATH可以包括三种形式：固定路径，必需通配参数“：”，和可选通配参数“*”。</li>
-<li>通配参数“*”，只能出现一次，并在PATH的最后。</li>
-<li>“*”之后的内容gin会全部解析为通配参数的内容。</li>
-<li><code>path</code>和<code>path/</code>是不同的，如果<code>path/</code>不存在，则会重定向到<code>path</code>。</li>
-<li>参数类型全部按照字符串解析。</li>
+<li><p>当有新块写入磁盘时，向<code>blocks.log</code>追加日志，包含所有不可逆块。这些区块包含最终确认的交易。</p>
+</li>
+<li><p><code>reversible_blocks</code>是一个内存映射文件，包含已写入区块链但尚未变为不可逆的块。这些块包含有效的推送事务，这些事务仍在等待通过协商一致协议确认为最终事务。头块是写入区块链的最后一个块，存储在<code>reversible_blocks</code>。</p>
+</li>
+<li><p><code>chain state</code> 和 <code>chain database</code> 当前被存储并缓存在内存映射文件中。它包含与每个区块关联的区块链状态，包括帐户详细信息、延迟交易和使用智能合约中的多索引表存储的数据。最后65536个块id也被缓存，以支持作为利害关系证明（TaPOS）的事务。事务ID/有效期也将被缓存，直到事务过期。</p>
+</li>
+<li><p><code>pending block</code>是一个内存块，在处理事务并将其推送到块中时，它包含事务；这将/可能最终成为头块。如果<code>nodeos</code>实例是生产节点，则pending block将被分发给其他<code>nodeos</code>实例。</p>
+</li>
+<li><p>在链状态之外，块数据被缓存在RAM中，直到它成为最终的/不可逆的；特别是签名块。在最后一个不可逆块（LIB）捕获到该块之后，然后从不可逆块日志中检索该块。</p>
+</li>
 </ul>
+<h2 id="EOSIO-Interfaces"><a href="#EOSIO-Interfaces" class="headerlink" title="EOSIO Interfaces"></a>EOSIO Interfaces</h2><p>EOSIO提供了一组<a href="https://developers.eos.io/manuals/eos/latest" target="_blank" rel="noopener">服务</a>和<a href="https://developers.eos.io/manuals/eosio.cdt/latest/files" target="_blank" rel="noopener">接口</a>，这些服务和接口使合约开发人员能够跨操作（从而跨事务）边界持久化状态。合约可以将这些服务和接口用于各种目的。例如，<code>eosio.token</code>合约为链数据库中的所有用户保存余额。<code>nodeos</code>的每个实例都将数据库保存在内存中，因此合约可以轻松地读写数据。</p>
+<h3 id="Nodeos-RPC-API"><a href="#Nodeos-RPC-API" class="headerlink" title="Nodeos RPC API"></a>Nodeos RPC API</h3><p><code>nodeos</code> 提供通过HTTP <a href="https://developers.eos.io/manuals/eos/latest/nodeos/rpc_apis/index" target="_blank" rel="noopener">RPC API</a> 方式访问链数据的请求。</p>
+<h2 id="Nodeos-Read-Modes"><a href="#Nodeos-Read-Modes" class="headerlink" title="Nodeos Read Modes"></a>Nodeos Read Modes</h2><p><code>nodeos</code>服务可以在不同的“读”模式下运行。这些模式控制节点如何操作以及如何处理块和事务：</p>
+<ul>
+<li><p><code>speculative</code>：包括已确认和未确认交易的副本。</p>
 </li>
-<li><p>路径示例</p>
-<pre><code>#合法定义
-/d1                
-/d2/:param1        
-/d3/:param1/:param2    
-/d4/:param1/:param2/    
-/d5/:param1/*param2    
-/d6/:param1/:param2/*param3
-#非法定义
-/d7/:param1/*param2/    
-/d8/:param1/*param2/param3    
-/d9/:param1/*param2/:param3    
-/d10/:param1/*param2/*param3    
-</code></pre></li>
-<li><p>其他路径</p>
-<p>没有定义的路径，gin默认会返回404状态码和简单的提示信息。我们可以使用：<code>*Engine.NoRoute()</code>指定一个自定义的404处理方法。</p>
+<li><p><code>head</code>：只包括已确认交易的副本，不包括未确认交易。</p>
 </li>
-</ol>
-<h2 id="参数的获取"><a href="#参数的获取" class="headerlink" title="参数的获取"></a>参数的获取</h2><ol>
-<li>使用<code>Context.Param(key string)</code>方法，其中参数key是在路由规则中定义的通配参数名。</li>
-<li>读取<code>Context.Params</code>获取所有的key-value数组，按照自已意愿处理。</li>
-</ol>
-<p>代码下载：<a href="https://github.com/IrvinYoung/gin-lessons" target="_blank" rel="noopener">https://github.com/IrvinYoung/gin-lessons</a></p>
-
+<li><p><code>read-only</code>：此模式已弃用。通过组合选项可以实现类似的功能：<code>read mode=head，p2p accept transactions=false，api accept transactions=false</code>。设置这些选项后，本地数据库将包含由链中事务到头块所做的状态更改。此外，通过P2P网络接收的事务不会被中继，并且事务不能通过链式API推送。</p>
+</li>
+<li><p><code>irreversible</code>：此模式还包括已确认的事务，但最多不超过包含在最后一个不可逆块中的事务。</p>
+</li>
+</ul>
+<p>当<code>nodeos</code>实例接收、处理并写入区块链上的一个块（即，它在头块或更早的块中）时，事务被视为已确认。</p>
+<h3 id="Speculative-Mode"><a href="#Speculative-Mode" class="headerlink" title="Speculative Mode"></a>Speculative Mode</h3><h3 id="Head-Mode"><a href="#Head-Mode" class="headerlink" title="Head Mode"></a>Head Mode</h3><h3 id="Read-Only-Mode"><a href="#Read-Only-Mode" class="headerlink" title="Read-Only Mode"></a>Read-Only Mode</h3><h3 id="Irreversible-Mode"><a href="#Irreversible-Mode" class="headerlink" title="Irreversible Mode"></a>Irreversible Mode</h3><h2 id="How-To-Specify-the-Read-Mode"><a href="#How-To-Specify-the-Read-Mode" class="headerlink" title="How To Specify the Read Mode"></a>How To Specify the Read Mode</h2>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 irvin.em@live.com。 </span>
     </div>
@@ -969,12 +894,12 @@ func RangeParams(p gin.Params) {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Gin教程(5)—路由参数</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">639</span></p>
+    <p><span class="copy-title">文章标题:</span>Nodeos 使用之最佳实践</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">876</span></p>
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="dino">dino</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-25, 14:54:41</p>
-    <p><span class="copy-title">最后更新:</span>2019-11-25, 15:18:09</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/25/gin-lesson-pathParameters/" title="Gin教程(5)—路由参数">https://blog.walkbc.com/2019/11/25/gin-lesson-pathParameters/</a>
+    <p><span class="copy-title">发布时间:</span>2020-06-06, 00:28:51</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-07, 17:06:30</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/06/EOS-Nodeos-Usage-Implementation/" title="Nodeos 使用之最佳实践">https://blog.walkbc.com/2020/06/06/EOS-Nodeos-Usage-Implementation/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
